@@ -3,8 +3,8 @@ import logger from 'morgan'
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import connection_db from './config/database.js';
+import router from './routes.js';
 
-import router from './router.js'
 await connection_db()
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
