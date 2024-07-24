@@ -1,36 +1,36 @@
 :root {
     /* light theme */
-    --dz-sidebar-bg-color-light: rgb(245 245 245);
-    --dz-sidebar-bg-color: #fff;
-    --dz-sidebar-bg-color-dark: #e0e0ee;
+    --nt-sidebar-bg-color-light: rgb(245 245 245);
+    --nt-sidebar-bg-color: #fff;
+    --nt-sidebar-bg-color-dark: #e0e0ee;
 
-    --dz-sidebar-text-color-light: #666666;
-    --dz-sidebar-text-color-lighter: #999999;
-    --dz-sidebar-text-color: #6e768e;
-    --dz-sidebar-text-highlight: #71b6f9;
+    --nt-sidebar-text-color-light: #666666;
+    --nt-sidebar-text-color-lighter: #999999;
+    --nt-sidebar-text-color: #6e768e;
+    --nt-sidebar-text-highlight: #71b6f9;
 
 
-    --dz-sidebar-icon-color: #333333;
-    --dz-sidebar-icon-highlight: #71b6f9;
+    --nt-sidebar-icon-color: #333333;
+    --nt-sidebar-icon-highlight: #71b6f9;
 
-    --dz-container-color: #f0f0f5;
-    --dz-card-color: #fff;
-    --dz-body-color: #f5f5f5;
-    --dz-body-color-dark: #fff;
+    --nt-container-color: #f0f0f5;
+    --nt-card-color: #fff;
+    --nt-body-color: #f5f5f5;
+    --nt-body-color-dark: #fff;
 
-    --dz-input-bg: var(--dz-body-color-dark);
-    --dz-input-focus-bg: var(--dz-input-bg);
-    --dz-input-border-color: var(--dz-border-color);
-    --dz-input-focus-border-color: var(--dz-border-color-active);
-    --dz-input-hover-bg: #fff;
+    --nt-input-bg: var(--nt-body-color-dark);
+    --nt-input-focus-bg: var(--nt-input-bg);
+    --nt-input-border-color: var(--nt-border-color);
+    --nt-input-focus-border-color: var(--nt-border-color-active);
+    --nt-input-hover-bg: #fff;
 
     /* JS Grid */
-    --dz-table-row-color: #f2f2f2;
-    --dz-table-row-alt-color: #fff;
-    --dz-table-border-color: var(--dz-border-color);
+    --nt-table-row-color: #f2f2f2;
+    --nt-table-row-alt-color: #fff;
+    --nt-table-border-color: var(--nt-border-color);
 
 
     /* Bootstrap Select  */
-    --dz-select--hover-bg-color:#f0f0f5;
-    --dz-select--active-bg-color:#71b6f9;
+    --nt-select--hover-bg-color:#f0f0f5;
+    --nt-select--active-bg-color:#71b6f9;
 }
