@@ -1,12 +1,19 @@
 import mongoose from 'mongoose';
-import validator from 'validator';
 import bcryptjs from 'bcryptjs';
 
 const LoginSchemma = new mongoose.Schema({
-    email: { type: String, required: true },
+    username: { type: String, required: true },
     password: { type: String, required: true },
 
 })
+
+LoginSchemma.pre('save', async function (next) {
+    const hash = bcryptjs.hash(this.password, 10)
+    this.password = hash
+
+    next()
+})
+
 
 const LoginModel = mongoose.model('Login', LoginSchemma);
 
@@ -18,41 +25,32 @@ class Login {
 
     }
 
-    async login() {
-        this.valida();
-        if (this.errors.length > 0) return;
-        this.user = await LoginModel.findOne({ email: this.body.email });
-
-        if(!this.user) return this.errors.push('Usuario nao existe');
-        if(!bcryptjs.compareSync(this.body.password, this.user.password)){
-            this.errors.push('Senha Invalida!');
-            return
-        }
-    }
-
     async register() {
         this.valida();
-        await this.userExists()
+        await this.userExists();
 
         if (this.errors.length > 0) return;
 
-        const salt = bcryptjs.genSaltSync();
+        const salt = bcryptjs.genSaltSync(5);
         this.body.password = bcryptjs.hashSync(this.body.password, salt);
         this.user = await LoginModel.create(this.body);
+      //  console.log(this.user)
+        return this.user
     }
 
     async userExists() {
-        const user = await LoginModel.findOne({ email: this.body.email });
+        console.log(this.body.username)
+        const user = await LoginModel.findOne({ username: this.body.username });
+       // console.log(user)
         if (user) this.errors.push('Usuario ja Existe!');
     }
 
     valida() {
         this.cleanUp();
-        //validaçao de dados
-        if (!validator.isEmail(this.body.email)) this.errors.push('Email invalido!');
+
 
         if (this.body.password.length < 3 || this.body.password.length > 50) {
-            this.errors.push('A senha precisa ter entre 3 e 50 caracteres')
+            this.errors.push('A senha precisa ter entre 5 e 50 caracteres')
         }
 
     }
@@ -65,10 +63,19 @@ class Login {
         }
 
         this.body = {
-            email: this.body.email,
+            username: this.body.username,
             password: this.body.password
         }
+        console.log(this.body)
 
+
+    }
+
+    async findUser() {
+
+        console.log(this.body.username)
+        const user = await LoginModel.findOne({ username: this.body.username });
+        return user
 
     }
 }

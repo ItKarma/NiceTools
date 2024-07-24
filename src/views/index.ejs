@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NiceTools</title>
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="assets/bootstrap-5.1.3/css/bootstrap.min.css">
+  <link type="text/css" rel="stylesheet" href="assets/jsgrid-1.5.3/jsgrid.min.css" />
+  <link type="text/css" rel="stylesheet" href="assets/jsgrid-1.5.3/jsgrid-theme.min.css" />
+  <link rel="stylesheet" href="assets/style/style.css">
+</head>
+
+<body class="dark-layout">
+
+  <header class="nt__header">
+    <div class="nt__header__container">
+      <span class="shrink-btn">
+        <i class="bx bx-menu"></i>
+      </span>
+      <div class="nt__header__group_right">
+        <img src="assets/images/image.png" alt="" class="nt__header__img">
+        <div class="nt__header__theme_selector dark-layout px-2" id="theme-selector">
+          <i class='bx bxs-moon'></i>
+        </div>
+      </div>
+      <span class="nt__header__toggle" id="nt-header-toggle">
+        <i class="bx bx-menu"></i>
+      </span>
+    </div>
+  </header>
+
+  <nav id="ntNavBar">
+    <div class="sidebar-top">
+      <h3 class="nt__sidebar__title">Nicetools</h3>
+    </div>
+
+    <div>
+      <div class="nt__nav__list">
+        <dv class="nt__nav__items">
+          <h3 class="nt__nav__subtitle">Menu</h3>
+          <a href="#" class="nt__nav__link">
+            <i class="bx bx-home nt__nav__icon"></i>
+            <span class="nt__nav__name">Home</span>
+          </a>
+
+          <div class="nt__nav__dropdown">
+            <a href="#" class="nt__nav__link nt__nav__link_dd">
+              <i class="bx bx-credit-card-alt nt__nav__icon"></i>
+              <span class="nt__nav__name">Ferramentas</span>
+              <i class="bx bx-chevron-right nt__nav__dropdown-icon"></i>
+            </a>
+            <div class="nt__nav__dropdown-collapse">
+              <div class="nt__nav__dropdown-content">
+                <a href="./allbins.html" class="nt__nav__dropdown-item">Invertext</a>
+                <a href="#" class="nt__nav__dropdown-item">Api</a>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="nt__nav__link">
+            <i class="bx bx-terminal nt__nav__icon"></i>
+            <span class="nt__nav__name">Em desenvolvimento</span>
+          </a>
+        </dv>
+        <dv class="nt__nav__items">
+          <h3 class="nt__nav__subtitle"></h3>
+
+          <a href="#" class="nt__nav__link">
+            <i class="bx bx-compass nt__nav__icon"></i>
+            <span class="nt__nav__name">Sobre</span>
+          </a>
+          <a href="#" class="nt__nav__link">
+            <i class="bx bx-bookmark nt__nav__icon"></i>
+            <span class="nt__nav__name">Contato</span>
+          </a>
+        </dv>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="admin-user tooltip-element" data-tooltip="1">
+        <a href="#" class="log-out">
+          <i class='bx bx-log-out'></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+
+  <main class="nt__main">
+    <div class="container-fluid my-2">
+      <h2></h2>
+      <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card card-custom border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Testadores de GG</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                </div>
+                <div class="col-auto">
+                  <i class='bx bx-credit-card-alt bx-lg text-gray-300'></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card card-custom border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Saldo/Tempo</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"> R$ 58</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bx bxs-wallet-alt bx-lg text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card card-custom border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Clientes</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">51</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bx bxs-user-account bx-lg text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <footer class="nt__footer py-2">
+      <p class="text-center text-muted my-2">2023 © NiceTools Developers</p>
+    </footer>
+  </main>
+  <script src="assets/script/app.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/jsgrid-1.5.3/jsgrid.min.js"></script>
+  <script src="assets/script/jsgrid-example.js"></script>
+  <script src="assets/bootstrap-5.1.3/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="karma">
+    <title>NiceTools</title>
+    <link rel="stylesheet" href="assets/bootstrap-5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/style/signin_dark.css">
+</head>
+
+<body class="text-center">
+    <main class="form-signin">
+        <div class="row">
+            <div class="col-12">
+                <div class="card py-3 px-5">
+                    <form id="registerForm">
+                        <h1 class="h4 mb-3 fw-normal">Registra-se</h1>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="username" placeholder="Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-12">
+                                <!-- Espaço reservado para elementos adicionais, se necessário -->
+                            </div>
+                            <div class="col-md-6 col-12 text-end">
+                                <a href="/" class="bn">Login</a>
+                            </div>
+                        </div>
+
+                        <button class="w-100 btn btn-lg btn-primary" type="submit">Registrar</button>
+                        <p class="mt-5 mb-3 text-muted">2022 &copy; NiceTools Developers</p>
+                    </form>
+                </div>
+
+                <!-- Toast de notificação -->
+                <div class="toast" id="registerToast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-body"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="assets/bootstrap-5.1.3/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            fetch('/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const toastEl = document.getElementById('registerToast');
+                    const toast = new bootstrap.Toast(toastEl);
+
+                    if (data.token) {
+                        document.cookie = `ssid=${data.token}; path=/;`;
+                        toastEl.querySelector('.toast-body').textContent = 'Conta criada com sucesso!';
+                        toastEl.classList.remove('bg-danger');
+                        toastEl.classList.add('bg-success');
+                        toast.show();
+                        setTimeout(() => window.location.href = '/', 1500);
+                    } else {
+                        toastEl.querySelector('.toast-body').textContent = 'Erro: ' + data.error;
+                        toastEl.classList.remove('bg-success');
+                        toastEl.classList.add('bg-danger');
+                        toast.show();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Karma">
+    <title>NiceTools</title>
+    <link rel="stylesheet" href="assets/bootstrap-5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/style/signin_dark.css">
+</head>
+
+<body class="text-center">
+    <main class="form-signin">
+        <div class="row">
+            <div class="col-12">
+                <div class="card py-3 px-5">
+                    <form id="loginForm">
+                        <h1 class="h4 mb-3 fw-normal">Login</h1>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="username" placeholder="Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-12">
+                                <!-- Espaço reservado para elementos adicionais, se necessário -->
+                            </div>
+                            <div class="col-md-6 col-12 text-end">
+                                <a href="/register" class="bn">Criar conta</a>
+                            </div>
+                        </div>
+
+                        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+                        <p class="mt-5 mb-3 text-muted">2022 &copy; NiceTools Developers</p>
+                    </form>
+                </div>
+
+                <!-- Toast de notificação -->
+                <div class="toast" id="notification" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-body" id="notificationMessage"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="assets/bootstrap-5.1.3/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            fetch('/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                const notification = document.getElementById('notification');
+                const message = document.getElementById('notificationMessage');
+
+                if (!data.error) {
+                    document.cookie = `ssid=${data.token}; path=/;`;
+                    
+                    notification.classList.remove('error');
+                    message.textContent = 'Login bem-sucedido!';
+                    setTimeout(() => window.location.href = '/home', 1500); 
+                } else {
+                    if (data.error === 'user not found') {
+                        notification.classList.add('error');
+                        message.textContent = 'ERROR: USUARIO NÃO EXISTE BB';
+                    }
+                }
+
+                notification.style.display = 'block';
+                setTimeout(() => notification.style.display = 'none', 3000); 
+
+            })
+            .catch((error) => {
+                alert('Erro: ' + error.message);
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+
+</html>
