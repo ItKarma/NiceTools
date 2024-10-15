@@ -101,7 +101,7 @@
 
       <main class="nt__main">
         <div class="form-container">
-          <h2 class="header-title">ALLBINS GG [ <i class='bx bxl-visa'></i>/<i class='bx bxl-mastercard'></i> ]</h2>
+          <h2 class="header-title">GERADAS GG [ <i class='bx bxl-visa'></i>/<i class='bx bxl-mastercard'></i> ]</h2>
 
           <form>
 
@@ -184,7 +184,7 @@
               let value = splitValueLista[index];
 
               $.ajax({
-                url: `/gateway/allbins1?gg=${encodeURIComponent(value)}`,
+                url: `/gateway/gg?gg=${encodeURIComponent(value)}`,
                 method: 'GET',
                 success: function (data) {
                   splitValueLista.splice(index, 1); 

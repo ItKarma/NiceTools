@@ -17,10 +17,45 @@ router.get('/register', authController.authRegister);
 // Rotas protegidas por autenticação
 router.get('/home', auth, homeController.home);
 router.get('/allbins', auth, homeController.allbins);
-//router.get('/allbins2', auth, homeController.allbins2);
+router.get('/geradas', auth, homeController.geradas);
+
+router.get('/gateway/gg', auth, async (req, res) => {
+  try {
+    const gg = req.query.gg;
+
+    const userId = req.user.id;
+    const user = await new Login().findUserById(userId);
+    let users = await new Login().allFindUsers();
+  //  console.log(users.length)
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    const timeLeft = await gatesController.checkSubscriptionTime(user);
+    let userInfo = { status: 'active', timeLeft };
+
+    if (timeLeft === 0) {
+      userInfo.status = 'inactive';
+      return res.json(userInfo);
+    }
 
 
-router.get('/gateway/allbins2', auth, async (req, res) => {
+    const response = await gatesController.gatewayGeradas(gg);
+    //console.log(response);
+
+    if (response.error) {
+      return res.status(400).json({ error: response.error });
+    }
+
+    return res.json({ response });
+  } catch (error) {
+    console.error('Erro na rota /gateway/allbins2:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/gateway/allbins1', auth, async (req, res) => {
   try {
     const gg = req.query.gg;
 
@@ -37,8 +72,8 @@ router.get('/gateway/allbins2', auth, async (req, res) => {
     let userInfo = { status: 'active', timeLeft };
 
     if (timeLeft === 0) {
-       userInfo.status = 'inactive';
-       return res.json(userInfo);
+      userInfo.status = 'inactive';
+      return res.json(userInfo);
     }
 
 

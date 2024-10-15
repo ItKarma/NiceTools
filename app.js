@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 (async () => {
-  await connection_db();
+ await connection_db();
 
   app.use(cors({
     origin: 'http://loficenter.org',

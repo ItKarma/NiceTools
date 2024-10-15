@@ -42,10 +42,10 @@ class homeController {
 
     }
 
-    async allbins2(req, res) {
+    async geradas(req, res) {
         try {
 
-            res.render('allbins2');
+            res.render('geradas');
 
         } catch (error) {
             console.log(error)
