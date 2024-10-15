@@ -36,11 +36,11 @@ class authController {
         let body = req.body
         console.log(body)
         try {
-            if (!body.username) return res.status(400).json({ error: 'email is required' })
+            if (!body.username) return res.status(400).json({ error: 'username is required' })
             if (!body.password) return res.status(400).json({ error: 'password is required' })
 
             const user = await new loginModel(body).findUser();
-            console.log('USER TENTANDO EFETUAR LOGIN', user)
+            console.log('USER TENTANDO EFETUAR LOGIN', body)
 
             if (!user) return res.status(400).json({ error: 'user not found' })
 

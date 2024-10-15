@@ -73,10 +73,10 @@ class Login {
 
     async findUser() {
         const user = await LoginModel.findOne({ username: this.body.username });
-        if (user) {
-            await this.checkSubscription(); // Verifica se a assinatura está ativa
-            user.password = null; // Remover a senha antes de retornar
-        }
+        console.log(user)
+     //   if (user) {
+     //       user.password = null; // Remover a senha antes de retornar
+     //   }
         return user;
     }
 
