@@ -28,7 +28,7 @@ class Login {
         this.user = null;
     }
 
-    async allFindUsers(){
+    async allFindUsers() {
         const users = await LoginModel.find();
         return users;
     }
@@ -39,8 +39,8 @@ class Login {
 
         if (this.errors.length > 0) return;
 
-        this.body.subscriptionStatus = 'inactive'; 
-        this.body.subscriptionPlan = 'none'; 
+        this.body.subscriptionStatus = 'inactive';
+        this.body.subscriptionPlan = 'none';
 
         this.user = await LoginModel.create(this.body);
         return this.user;
@@ -74,9 +74,9 @@ class Login {
     async findUser() {
         const user = await LoginModel.findOne({ username: this.body.username });
         console.log(user)
-     //   if (user) {
-     //       user.password = null; // Remover a senha antes de retornar
-     //   }
+        //   if (user) {
+        //       user.password = null; // Remover a senha antes de retornar
+        //   }
         return user;
     }
 
@@ -88,8 +88,11 @@ class Login {
 
     async startSubscription(plan) {
         const durationMap = {
-            '24h': 24 * 60 * 60 * 1000,  // 24 hours in milliseconds
-            '7d': 7 * 24 * 60 * 60 * 1000,  // 7 days in milliseconds
+            '1h': 1 * 60 * 60 * 1000,
+            '5h': 5 * 60 * 60 * 1000,
+            '12h': 12 * 60 * 60 * 1000,
+            '24h': 24 * 60 * 60 * 1000,  
+            '7d': 7 * 24 * 60 * 60 * 1000,  
         };
 
         const user = await this.findUser();

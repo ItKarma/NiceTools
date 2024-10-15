@@ -30,7 +30,7 @@ class GatesController {
 
     const timeLeftInHours = (timeLeft / 1000 / 60 / 60).toFixed(2);
 
-    return `${timeLeftInHours} horas restantes`;
+    return `${timeLeftInHours} TEMPO`;
   }
 }
 
