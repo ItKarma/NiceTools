@@ -15,10 +15,9 @@ const __dirname = dirname(__filename);
   await connection_db();
 
   app.use(cors({
-    //origin: 'http://exemplo.com', 
+    origin: 'http://loficenter.org', 
     credentials: true
   }));
-
   app.use(cookieParser());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
