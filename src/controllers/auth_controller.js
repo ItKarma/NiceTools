@@ -40,10 +40,11 @@ class authController {
             if (!body.password) return res.status(400).json({ error: 'password is required' })
 
             const user = await new loginModel(body).findUser();
+            console.log('USER TENTANDO EFETUAR LOGIN', user)
 
             if (!user) return res.status(400).json({ error: 'user not found' })
 
-            if(!bcryptjs.compare(body.password, user.password)) {
+            if(!await bcryptjs.compare(body.password, user.password)) {
                 return res.status(400).json({ error: 'password invalid' })
             }
 
