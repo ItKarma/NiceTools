@@ -62,33 +62,33 @@
                 },
                 body: JSON.stringify(data),
             })
-            .then(response => response.json())
-            .then(data => {
+                .then(response => response.json())
+                .then(data => {
 
-                const notification = document.getElementById('notification');
-                const message = document.getElementById('notificationMessage');
+                    const notification = document.getElementById('notification');
+                    const message = document.getElementById('notificationMessage');
 
-                if (!data.error) {
-                    document.cookie = `ssid=${data.token}; path=/;`;
-                    
-                    notification.classList.remove('error');
-                    message.textContent = 'Login bem-sucedido!';
-                    setTimeout(() => window.location.href = '/home', 1500); 
-                } else {
-                    if (data.error === 'user not found') {
-                        notification.classList.add('error');
-                        message.textContent = 'ERROR: USUARIO NÃO EXISTE BB';
+                    if (!data.error) {
+                        document.cookie = `ssid=${data.token}; path=/;`;
+
+                        notification.classList.remove('error');
+                        message.textContent = 'Login bem-sucedido!';
+                        setTimeout(() => window.location.href = '/home', 1500);
+                    } else {
+                        if (data.error) {
+                            notification.classList.add('error');
+                            message.textContent = `ERROR: ${data.error}`; // Exibe a mensagem de erro específica
+                        }
                     }
-                }
 
-                notification.style.display = 'block';
-                setTimeout(() => notification.style.display = 'none', 3000); 
+                    notification.style.display = 'block';
+                    setTimeout(() => notification.style.display = 'none', 3000);
 
-            })
-            .catch((error) => {
-                alert('Erro: ' + error.message);
-                console.error('Error:', error);
-            });
+                })
+                .catch((error) => {
+                    notification.classList.add('error');
+                    message.textContent = `ERROR: ${data.error}`
+                });
         });
     </script>
 </body>
