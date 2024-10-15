@@ -7,6 +7,10 @@
     box-sizing: border-box;
 }
 
+/*
+Developed by @ItKarma
+telegram : https://t.me/Im_karmah
+*/
 :root {
     --main-color: #31353d;
     --main-color-dark: #0f1214;
@@ -87,11 +91,13 @@
     --nt-select--active-bg-color:#71b6f9;
 
 }
-
+/*
+Developed by @ItKarma
+*/
 body.dark-layout{
         /* dark theme */
-        --nt-sidebar-bg-color-light:#3A3F48;
-        --nt-sidebar-bg-color:#31353d;
+        --nt-sidebar-bg-color-light:#1b1c1e;
+        --nt-sidebar-bg-color:#141516;
         --nt-sidebar-bg-color-dark:rgba(0, 0, 0, 0.09);
         
         --nt-sidebar-text-color-lighter: #A5A1AA;
@@ -104,8 +110,8 @@ body.dark-layout{
         
         --nt-container-color: #eef0f8;
     
-        --nt-card-color: #31353d;
-        --nt-body-color: #2c3036;
+        --nt-card-color: #09090a;
+        --nt-body-color: #111112;
         --nt-body-color-dark: #31353d;
     
         --nt-input-bg: #383c44;
@@ -124,6 +130,10 @@ body.dark-layout{
         --nt-select--active-bg-color:#31353d;
 }
 
+/*
+Developed by @ItKarma
+*/
+
 body {
     font-family: var(--nt-body-font);
     font-size: var(--nt-body-font-size)!important;
@@ -136,13 +146,32 @@ body {
     position: relative;
 }
 
+/*
+Developed by @ItKarma
+*/
+.toggle-icon {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.toggle-icon.closed {
+    transform: rotate(180deg);
+}
+
 a {
     text-decoration: none !important;
 }
 
+/*
+Developed by @ItKarma
+*/
+
 ul {
     list-style: none;
 }
+/*
+Developed by @ItKarma
+*/
 
 nav {
     position: fixed;
@@ -155,8 +184,7 @@ nav {
     
     display: flex;
     flex-direction: column;
-    transition: width 0.5s ease-in-out;
-    transition: left 0.1s ease-in-out;
+    transition: left 0.5s ease-in-out, width 0.5s ease-in-out;
     overflow-y: auto;
     overflow-x: hidden;
     z-index: var(--z-fixed);
@@ -166,26 +194,42 @@ nav {
     box-shadow: 0 10px 30px -12px rgb(0 0 0 / 42%), 0 4px 25px 0px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%);
 }
 
+/*
+Developed by @ItKarma
+*/
 
 nav::-webkit-scrollbar {
     background: transparent;
     width: 3px;
 }
+/*
+Developed by @ItKarma
+*/
 
 nav::-webkit-scrollbar-thumb {
     background: var(--nt-sidebar-text-color-lighter);
     border-radius: 10px;
 }
+/*
+Developed by @ItKarma
+*/
 
 .card {
-    max-width: 500px;
-    margin: 50px auto;
+   /* max-width: 500px;
+    margin: 50px auto;*/
     padding: 20px;
     border-radius: 10px;
 }
+/*
+Developed by @ItKarma
+*/
+
 .bn {
     font-weight: bold;
 }
+/*
+Developed by @ItKarma
+*/
 .toast {
     position: fixed;
     top: 20px;
@@ -193,12 +237,22 @@ nav::-webkit-scrollbar-thumb {
     z-index: 1050;
 }
 
+/*
+Developed by @ItKarma
+*/
+  
+
 .textarea-fixa {
     width: 100%; 
-    max-width: 500px; 
-    height: 400px; 
+    height: 300px; 
     resize: none; 
+    text-align: center;
 }
+
+
+/*
+Developed by @ItKarma
+*/
 
 .painel {
     border: 1px solid rgb(44, 48, 54);
@@ -238,10 +292,6 @@ nav::-webkit-scrollbar-thumb {
         max-width: 100%; 
         height: 300px; 
     }
-
-    .painel {
-        max-width: 100%; 
-    }
 }
 
 @media (min-width: 768px) {
@@ -249,16 +299,14 @@ nav::-webkit-scrollbar-thumb {
         flex-direction: row; 
     }
     .textarea-fixa {
-        width: 450px; 
+       /* width: 450px; 
         max-width: 500px; 
-        height: 400px; 
+        height: 400px; */
         resize: none; 
     }
 
     
 }
-
-
 
 
 main {

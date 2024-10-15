@@ -10,6 +10,7 @@ function gerenateToken(params = {}) {
 
 
 class authController {
+    
     async singUp(req, res) {
         const { username, password } = req.body;
         let body = { username, password}
@@ -56,7 +57,6 @@ class authController {
     }
 
     async auth(req, res) {
-        let body = req.body
         try {
 
             res.render('login')
@@ -68,10 +68,7 @@ class authController {
     }
 
     async authRegister (req,res){
-        let body = req.body
         try {
-            console.log(body)
-
             res.render('register')
 
         } catch (error) {

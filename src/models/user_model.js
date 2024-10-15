@@ -1,28 +1,36 @@
 import mongoose from 'mongoose';
 import bcryptjs from 'bcryptjs';
+import cron from 'node-cron';
 
-const LoginSchemma = new mongoose.Schema({
+const LoginSchema = new mongoose.Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
+    subscriptionStatus: { type: String, default: 'inactive' },
+    subscriptionStart: { type: Date, default: null },
+    subscriptionEnd: { type: Date, default: null },
+    subscriptionPlan: { type: String, default: 'none' },
+});
 
-})
+LoginSchema.pre('save', async function (next) {
+    if (this.isModified('password')) {
+        const hash = await bcryptjs.hash(this.password, 10);
+        this.password = hash;
+    }
+    next();
+});
 
-LoginSchemma.pre('save', async function (next) {
-    const hash = bcryptjs.hash(this.password, 10)
-    this.password = hash
-
-    next()
-})
-
-
-const LoginModel = mongoose.model('Login', LoginSchemma);
+const LoginModel = mongoose.model('Login', LoginSchema);
 
 class Login {
     constructor(body) {
         this.body = body;
         this.errors = [];
         this.user = null;
+    }
 
+    async allFindUsers(){
+        const users = await LoginModel.find();
+        return users;
     }
 
     async register() {
@@ -31,28 +39,23 @@ class Login {
 
         if (this.errors.length > 0) return;
 
-        const salt = bcryptjs.genSaltSync(5);
-        this.body.password = bcryptjs.hashSync(this.body.password, salt);
+        this.body.subscriptionStatus = 'inactive'; 
+        this.body.subscriptionPlan = 'none'; 
+
         this.user = await LoginModel.create(this.body);
-      //  console.log(this.user)
-        return this.user
+        return this.user;
     }
 
     async userExists() {
-        console.log(this.body.username)
         const user = await LoginModel.findOne({ username: this.body.username });
-       // console.log(user)
-        if (user) this.errors.push('Usuario ja Existe!');
+        if (user) this.errors.push('Usuário já existe!');
     }
 
     valida() {
         this.cleanUp();
-
-
         if (this.body.password.length < 3 || this.body.password.length > 50) {
-            this.errors.push('A senha precisa ter entre 5 e 50 caracteres')
+            this.errors.push('A senha precisa ter entre 5 e 50 caracteres');
         }
-
     }
 
     cleanUp() {
@@ -64,20 +67,76 @@ class Login {
 
         this.body = {
             username: this.body.username,
-            password: this.body.password
-        }
-        console.log(this.body)
-
-
+            password: this.body.password,
+        };
     }
 
     async findUser() {
-
-        console.log(this.body.username)
         const user = await LoginModel.findOne({ username: this.body.username });
-        return user
+        if (user) {
+            await this.checkSubscription(); // Verifica se a assinatura está ativa
+            user.password = null; // Remover a senha antes de retornar
+        }
+        return user;
+    }
 
+    async findUserById(id) {
+        const user = await LoginModel.findOne({ _id: id });
+        if (user) user.password = null; // Remover a senha
+        return user;
+    }
+
+    async startSubscription(plan) {
+        const durationMap = {
+            '24h': 24 * 60 * 60 * 1000,  // 24 hours in milliseconds
+            '7d': 7 * 24 * 60 * 60 * 1000,  // 7 days in milliseconds
+        };
+
+        const user = await this.findUser();
+        if (!user) {
+            this.errors.push('Usuário não encontrado');
+            return;
+        }
+
+        const currentTime = new Date();
+        const subscriptionEnd = new Date(currentTime.getTime() + durationMap[plan]);
+
+        user.subscriptionStatus = 'active';
+        user.subscriptionStart = currentTime;
+        user.subscriptionEnd = subscriptionEnd;
+        user.subscriptionPlan = plan;
+
+        await user.save();
+        return user;
+    }
+
+    async checkSubscription() {
+        const user = await this.findUser();
+        if (!user) {
+            this.errors.push('Usuário não encontrado');
+            return;
+        }
+
+        const currentTime = new Date();
+        if (user.subscriptionEnd && user.subscriptionEnd > currentTime) {
+            return 'active';
+        } else {
+            user.subscriptionStatus = 'inactive';
+            user.subscriptionPlan = 'none';
+            await user.save();
+            return 'inactive';
+        }
     }
 }
 
-export default Login
+// Cron job para verificar assinaturas
+cron.schedule('0 0 * * *', async () => {
+    const today = new Date();
+    await LoginModel.updateMany(
+        { subscriptionEnd: { $lt: today }, subscriptionStatus: 'active' },
+        { $set: { subscriptionStatus: 'inactive' } }
+    );
+    console.log('Status de assinatura atualizado para inativo, se necessário.');
+});
+
+export default Login;
