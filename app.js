@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import connection_db from './config/database.js';
 import router from './routes.js';
 import cors from 'cors';
+import path from 'path'
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +16,7 @@ const __dirname = dirname(__filename);
   await connection_db();
 
   app.use(cors({
-    origin: 'http://loficenter.org', 
+    origin: 'http://loficenter.org',
     credentials: true
   }));
   app.use(cookieParser());
@@ -29,7 +30,9 @@ const __dirname = dirname(__filename);
   app.use(logger('dev'));
   app.use(router);
 
-  
+  app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, 'src', 'views','assets','images', '404.webp')); // Altere para o caminho da sua imagem
+  });
 
   app.listen(3000, () => {
     console.log("Servidor online na porta 3000");
