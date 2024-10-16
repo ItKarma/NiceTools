@@ -114,7 +114,7 @@ router.get('/gateway/debi', auth, async (req, res) => {
     }
 
 
-    const response = await gatesController.gateway11(gg);
+    const response = await gatesController.ggdebitando(gg);
     //console.log(response);
 
     if (response.error) {
