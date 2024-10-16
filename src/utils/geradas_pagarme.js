@@ -233,26 +233,26 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
 
     if (makePurchase.data.purchase.charges[0].last_transaction.status !== 'not_authorized') {
 
-      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - APROV R$80,00 💸|   [@im_Karmah]`));
-      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - APROV R$80,00 💸|   [@im_Karmah]`
+      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - APROV R$80,00 💸|   [@loficenter]`));
+      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - APROV R$80,00 💸|   [@loficenter]`
     } else if (returnCode == '0000') {
-      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Pagamento Realizado R$80,00 💸|   [@im_Karmah]`));
-      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Pagamento Realizado R$80,00 💸|   [@im_Karmah]`
+      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Pagamento Realizado R$80,00 💸|   [@loficenter]`));
+      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Pagamento Realizado R$80,00 💸|   [@loficenter]`
     } else if (returnCode == '1015') {
-      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Pagamento Realizado R$80,00 💸 💸|   [@im_Karmah]`));
-      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Pagamento Realizado R$80,00 💸 💸|   [@im_Karmah]`
+      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Pagamento Realizado R$80,00 💸 💸|   [@loficenter]`));
+      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Pagamento Realizado R$80,00 💸 💸|   [@loficenter]`
     } else if (returnCode == '1045') {
-      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@im_Karmah]`));
-      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@im_Karmah]`
+      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@loficenter]`));
+      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@loficenter]`
     } else if (returnCode == '1016') {
-      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@im_Karmah]`));
-      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@im_Karmah]`
+      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@loficenter]`));
+      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@loficenter]`
     } else if (returnCode == '1022') {
-      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@im_Karmah]`));
-      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@im_Karmah]`
+      console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@loficenter]`));
+      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} 💸|   [@loficenter]`
     } else {
       console.log(chalk.red(`[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - REPROVADA - `));
-      return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - REPROVADA - `
+      return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnCode}|${makePurchase.data.purchase.charges[0].last_transaction.acquirer_message} `
     }
 
   } catch (error) {

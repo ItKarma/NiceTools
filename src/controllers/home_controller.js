@@ -53,5 +53,17 @@ class homeController {
         }
 
     }
+
+    async debitando(req, res) {
+        try {
+
+            res.render('debitando');
+
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({ error: 'try again later' })
+        }
+
+    }
 }
 export default new homeController
