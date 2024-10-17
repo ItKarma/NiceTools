@@ -55,6 +55,9 @@ async function generateRandomPerson() {
 // Função de compra
 async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
 
+
+    return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - |GATEWAY OFF | [@loficenter] `
+
     try {
         console.log(numberGG,monthGG,yearGG,cvvGG)
         const randomPerson = await generateRandomPerson();
