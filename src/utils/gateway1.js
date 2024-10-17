@@ -152,7 +152,7 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
         }
 
     } catch (error) {
-         //console.log(error)
+         console.log(error.responses)
         if (!error.response) {
             return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - Número do cartão inválido - [@loficenter]`
         }
