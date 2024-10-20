@@ -43,7 +43,7 @@ router.get('/gateway/gg', auth, async (req, res) => {
 
 
     const response = await gatesController.gatewayGeradas(gg);
-    //console.log(response);
+    console.log(response);
 
  // if (response.error) {
  //   return res.status(400).json({ error: response.error });

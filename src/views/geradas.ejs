@@ -191,6 +191,7 @@
                   $('#exampleTextarea').val(splitValueLista.join('\n')); 
 
                   if (data.status == 'inactive') {
+                    console.log(data)
                     $('#listaReprovados').append(`<li>❌ POR FAVOR COMPRE COM O ACESSO COM ADM @im_karmah</li>`);
                     $('#reprovadas').text(parseInt($('#reprovadas').text()) + 1);
                   } else if (data.response.includes("[Aprovada]")) {
