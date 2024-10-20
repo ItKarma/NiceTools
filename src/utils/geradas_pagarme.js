@@ -222,7 +222,7 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
 async function executeFlow(value) {
   try {
 
-    if (cartao.startsWith("466")) {
+    if (value.startsWith("466")) {
    //   console.log("O cartão
       const [numberGG, monthGG, yearGG, cvvGG] = value.split('|');
       const yearSplited = yearGG.split('20')[1];
