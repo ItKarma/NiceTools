@@ -184,13 +184,13 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
 
 
     if (messageError == '1045') {
-      return console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${messageError} |${messageError1} | [@im_Karmah] `));
+      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${messageError} |${messageError1} | [@im_Karmah] `;
     } else if (messageError == '1022') {
-      return console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${messageError} |${messageError1} 💸| [@im_Karmah]`));
+      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${messageError} |${messageError1} 💸| [@im_Karmah]`;
     } else if (messageError == '0000') {
-      return console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${messageError} |${messageError1} R$ 120,00💸| [@im_Karmah]`));
+      return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${messageError} |${messageError1} R$ 120,00💸| [@im_Karmah]`;
     } else {
-      return console.log(chalk.red(`[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${messageError} |${messageError1} - [@im_Karmah]`));
+      return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${messageError} |${messageError1} - [@im_Karmah]`;
     }
 
 
@@ -212,7 +212,7 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
     //  } else if (responseError.includes('aprovada')) {
     //      return console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Transação aprovada1 💸| [@im_Karmah]`));
     //  } else if (responseError.includes('Número do cartão inválido')) {
-    return console.log(chalk.red(`[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - Número do cartão inválido | [@im_Karmah]`));
+    return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - Número do cartão inválido | [@im_Karmah]`;
     //  } else {
     //      return console.log(chalk.red(`[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${responseError} - [@im_Karmah]`));
     //  }
@@ -233,7 +233,7 @@ async function executeFlow(value) {
       return respoonse
 
     } else {
-      return console.log(chalk.red(`[Reprovada] ${numberGG}|${monthGG}|20${yearSplited}|${cvvGG} Retorno - AQUI SO É POSSIVEL TESTAR DA BIN 466 | [@im_Karmah]`));
+      return `[Reprovada] ${numberGG}|${monthGG}|20${yearSplited}|${cvvGG} Retorno - AQUI SO É POSSIVEL TESTAR DA BIN 466 | [@im_Karmah]`;
     }
 
   } catch (error) {
