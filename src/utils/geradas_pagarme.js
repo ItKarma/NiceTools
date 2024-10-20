@@ -222,11 +222,13 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
 async function executeFlow(value) {
   try {
 
-    if (value.startsWith("466")) {
+    const [numberGG, monthGG, yearGG, cvvGG] = value.split('|');
+    const yearSplited = yearGG.split('20')[1];
+
+
+    if (numberGG.startsWith("466")) {
    //   console.log("O cartão
-      const [numberGG, monthGG, yearGG, cvvGG] = value.split('|');
-      const yearSplited = yearGG.split('20')[1];
-  
+   
       let respoonse = await makePurchase(numberGG, monthGG, yearSplited, cvvGG);
       return respoonse
 
