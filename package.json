@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@faker-js/faker": "^9.0.3",
     "axios": "^1.7.2",
     "axios-cookiejar-support": "^5.0.2",
     "bcrypt": "^5.1.1",
@@ -7,6 +8,7 @@
     "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cpf": "^2.0.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",

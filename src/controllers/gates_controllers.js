@@ -7,7 +7,7 @@ import ggdebitando from '../utils/fitbike.js';
 class GatesController {
   async gateway11(gg) {
     try {
-      const response = await gateway1(gg);
+      const response = await geradas_pagarme(gg);
       return response 
     } catch (error) {
       console.error('Erro no controlador GatesController:', error);
