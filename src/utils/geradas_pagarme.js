@@ -1,8 +1,8 @@
-const axios = require('axios');
-const chalk = require('chalk');
-const { HttpsProxyAgent } = require('https-proxy-agent');
-const { faker } = require('@faker-js/faker'); // Biblioteca atualizada para gerar dados falsos
-const cpf = require('cpf');                  // Biblioteca para gerar CPFs válidos
+import axios from 'axios';
+import chalk from 'chalk';
+import { HttpsProxyAgent } from 'https-proxy-agent';
+import { faker } from '@faker-js/faker'; // Biblioteca atualizada para gerar dados falsos
+import cpf from 'cpf';                  // Biblioteca para gerar CPFs válidos
 
 // Função para gerar um nome completo aleatório
 function gerarNomeCompleto() {
