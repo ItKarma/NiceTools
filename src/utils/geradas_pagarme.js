@@ -4,7 +4,6 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 import { faker } from '@faker-js/faker';
 import cpf from 'cpf';
 
-
 // Função para gerar um nome completo aleatório
 function gerarNomeCompleto() {
     const primeiroNome = faker.person.firstName();
