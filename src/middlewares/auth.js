@@ -4,7 +4,7 @@ import { activeSessions } from '../helpers/sessionStore.js'; // Ajuste o caminho
 
 const Auth = async (req, res, next) => {
   const token = req.cookies.ssid; // Use o mesmo nome de cookie
-  console.log('Token recebido do cookie:', token); // Adicione esta linha
+//  console.log('Token recebido do cookie:', token); // Adicione esta linha
 
   if (!token) {
       return res.status(401).render('error', { message: 'Access Denied. Necessário realizar o login' });
@@ -14,13 +14,13 @@ const Auth = async (req, res, next) => {
 
   try {
       const verified = jwt.verify(token, secret.JWT_SECRET);
-      console.log(verified)
+    //  console.log(verified)
       req.user = verified;
 
       // Verifica se a sessão ainda está ativa
       const userId = verified.id; // ID do usuário no token
       const userSession = activeSessions[userId];
-      console.log(userSession)
+     // console.log(userSession)
 
       if (!userSession || userSession.token !== token) {
           return res.status(401).render('error', { message: 'Sessão inválida ou expirada. Faça login novamente.' });
