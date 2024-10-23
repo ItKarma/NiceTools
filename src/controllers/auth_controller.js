@@ -73,7 +73,7 @@ class authController {
             const token = generateToken({ id: userId }); // Certifique-se que a função está correta
             activeSessions[userId] = { token, ip: userIp };
     
-          //  console.log(token, activeSessions);
+            console.log(token, activeSessions);
             
             res.cookie('ssid', token, { httpOnly: true }); // Use o mesmo nome de cookie
     
