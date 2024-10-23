@@ -6,10 +6,10 @@ const LoginSchema = new mongoose.Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
     subscriptionStatus: { type: String, default: 'inactive' },
-    subscriptionStart: { type: Date, default: null },
-    subscriptionEnd: { type: Date, default: null },
+    balance: { type: Number , default: 0.00 }, // Novo campo para saldo
     subscriptionPlan: { type: String, default: 'none' },
 });
+
 
 LoginSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
@@ -82,17 +82,20 @@ class Login {
 
     async findUserById(id) {
         const user = await LoginModel.findOne({ _id: id });
-        if (user) user.password = null; // Remover a senha
+       // if (user) user.password = null; // Remover a senha
         return user;
     }
 
     async startSubscription(plan) {
-        const durationMap = {
-            '1h': 1 * 60 * 60 * 1000,
-            '5h': 5 * 60 * 60 * 1000,
-            '12h': 12 * 60 * 60 * 1000,
-            '24h': 24 * 60 * 60 * 1000,  
-            '7d': 7 * 24 * 60 * 60 * 1000,  
+        const balanceMap = {
+            '10': 10,
+            '20': 20,
+            '30': 30,
+            '40': 40,
+            '50': 50,
+            '80': 80,
+            '100': 100,
+            '200': 200,
         };
 
         const user = await this.findUser();
@@ -101,45 +104,48 @@ class Login {
             return;
         }
 
-        const currentTime = new Date();
-        const subscriptionEnd = new Date(currentTime.getTime() + durationMap[plan]);
-
+        // Adiciona o saldo correspondente ao plano
+        user.balance += balanceMap[plan];
         user.subscriptionStatus = 'active';
-        user.subscriptionStart = currentTime;
-        user.subscriptionEnd = subscriptionEnd;
         user.subscriptionPlan = plan;
 
         await user.save();
         return user;
     }
 
-    async checkSubscription() {
-        const user = await this.findUser();
+    async deductBalance(amount,id) {
+        const user = await this.findUserById(id);
         if (!user) {
             this.errors.push('Usuário não encontrado');
             return;
         }
 
-        const currentTime = new Date();
-        if (user.subscriptionEnd && user.subscriptionEnd > currentTime) {
-            return 'active';
-        } else {
+        if (user.balance < amount) {
             user.subscriptionStatus = 'inactive';
-            user.subscriptionPlan = 'none';
             await user.save();
-            return 'inactive';
+            return 'saldo insuficiente';
         }
-    }
-}
 
-// Cron job para verificar assinaturas
-cron.schedule('0 0 * * *', async () => {
-    const today = new Date();
-    await LoginModel.updateMany(
-        { subscriptionEnd: { $lt: today }, subscriptionStatus: 'active' },
-        { $set: { subscriptionStatus: 'inactive' } }
-    );
-    console.log('Status de assinatura atualizado para inativo, se necessário.');
-});
+        user.balance -= amount;  // Deduz o saldo
+        if (user.balance <= 0) {
+            user.subscriptionStatus = 'inactive';
+        }
+
+        await user.save();
+        return user;
+    }
+
+    async useService(serviceCost) {
+        const status = await this.deductBalance(serviceCost);
+        if (status === 'saldo insuficiente') {
+            this.errors.push('Saldo insuficiente para realizar esta ação');
+            return;
+        }
+
+        // Lógica do serviço continua aqui
+        console.log('Serviço utilizado com sucesso');
+    }
+
+}
 
 export default Login;

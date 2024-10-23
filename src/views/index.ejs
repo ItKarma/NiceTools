@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LofiCenter</title>
+  <link rel="icon" href="assets/images/favicon.jpg" type="image/jpeg">
   <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="assets/bootstrap-5.1.3/css/bootstrap.min.css">
   <link type="text/css" rel="stylesheet" href="assets/jsgrid-1.5.3/jsgrid.min.css" />
@@ -26,16 +27,16 @@
           <h2></h2>
           <div class="row">
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card card-custom border-left-primary shadow h-100 py-2">
+              <div class="card card-custom border-left-success shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        Testadores</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        FERRAMENTAS</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
                     </div>
                     <div class="col-auto">
-                      <i class='bx bx-credit-card-alt bx-lg text-gray-300'></i>
+                      <i ><svg xmlns="http://www.w3.org/2000/svg" width="4em" height="4em" viewBox="0 0 16 16"><path fill="currentColor" d="M1 3.5A2.5 2.5 0 0 1 3.5 1h7A2.5 2.5 0 0 1 13 3.5v1.53a4.5 4.5 0 0 0-1-.004V5H2v5.5A1.5 1.5 0 0 0 3.5 12h2.954l-.72.72a2.5 2.5 0 0 0-.242.28H3.5A2.5 2.5 0 0 1 1 10.5zm7.931 3.224l-.577-.578a.5.5 0 1 0-.708.708l.745.744q.216-.461.54-.874M2 4h10v-.5A1.5 1.5 0 0 0 10.5 2h-7A1.5 1.5 0 0 0 2 3.5zm4.354 2.854a.5.5 0 1 0-.708-.708l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L4.707 8.5zm6.538-.83c.366.042.471.48.21.742l-.975.975a1.507 1.507 0 1 0 2.132 2.132l.975-.975c.261-.261.7-.156.742.21a3.518 3.518 0 0 1-4.676 3.723l-2.726 2.727a1.507 1.507 0 1 1-2.132-2.132L9.168 10.7a3.518 3.518 0 0 1 3.724-4.676"/></svg></i>
                     </div>
                   </div>
                 </div>
@@ -46,30 +47,30 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        Tempo</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        SALDO</div>
                         <div id="subscription-time-left" class="h5 mb-0 font-weight-bold text-gray-800">
-                          <%= timeLeft %>
+                         <%= balance %>
                       </div>
                     </div>
                     <div class="col-auto">
-                      <i class="bx bxs-wallet-alt bx-lg text-gray-300"></i>
+                      <i ><svg xmlns="http://www.w3.org/2000/svg" width="4em" height="4em" viewBox="0 0 512 512"><path fill="currentColor" d="M327.027 65.816L229.79 128.23l9.856 5.397l86.51-55.53l146.735 83.116l-84.165 54.023l4.1 2.244v6.848l65.923-42.316l13.836 7.838l-79.76 51.195v11.723l64.633-41.487l15.127 8.57l-79.76 51.195v11.723l64.633-41.487l15.127 8.57l-79.76 51.195v11.723l100.033-64.21l-24.828-14.062l24.827-15.937l-24.828-14.064l24.827-15.937l-23.537-13.333l23.842-15.305zm31.067 44.74c-21.038 10.556-49.06 12.342-68.79 4.383l-38.57 24.757l126.903 69.47l36.582-23.48c-14.41-11.376-13.21-28.35 2.942-41.67zM227.504 147.5l-70.688 46.094l135.61 78.066l1.33-.85c2.5-1.61 6.03-3.89 10.242-6.613c8.42-5.443 19.563-12.66 30.674-19.86c16.002-10.37 24.248-15.72 31.916-20.694zm115.467 1.17a8.583 14.437 82.068 0 1 .003 0a8.583 14.437 82.068 0 1 8.32 1.945a8.583 14.437 82.068 0 1-.87 12.282a8.583 14.437 82.068 0 1-20.273 1.29a8.583 14.437 82.068 0 1 .87-12.28a8.583 14.437 82.068 0 1 11.95-3.237m-218.423 47.115L19.143 263.44l23.537 13.333l-23.842 15.305l24.828 14.063l-24.828 15.938l24.828 14.063l-24.828 15.938l166.135 94.106L285.277 381.8v-11.72l-99.433 63.824L39.11 350.787l14.255-9.15l131.608 74.547L285.277 351.8v-11.72l-99.433 63.824L39.11 320.787l14.255-9.15l131.608 74.547L285.277 321.8v-11.72l-99.433 63.824L39.11 290.787l13.27-8.52l132.9 75.28l99.997-64.188v-5.05l-5.48-3.154l-93.65 60.11l-146.73-83.116l94.76-60.824l-9.63-5.543zm20.46 11.78l-46.92 30.115c14.41 11.374 13.21 28.348-2.942 41.67l59.068 33.46c21.037-10.557 49.057-12.342 68.787-4.384l45.965-29.504l-123.96-71.358zm229.817 32.19c-8.044 5.217-15.138 9.822-30.363 19.688a36222 36222 0 0 1-30.69 19.873c-4.217 2.725-7.755 5.01-10.278 6.632c-.09.06-.127.08-.215.137v85.924l71.547-48.088zm-200.99 17.48a8.583 14.437 82.068 0 1 8.32 1.947a8.583 14.437 82.068 0 1-.87 12.28a8.583 14.437 82.068 0 1-20.27 1.29a8.583 14.437 82.068 0 1 .87-12.28a8.583 14.437 82.068 0 1 11.95-3.236z"/></svg></i>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card card-custom border-left-warning shadow h-100 py-2">
+              <div class="card card-custom border-left-success shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        Clientes</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        USER</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><%= QtyUser %></div>
                     </div>
                     <div class="col-auto">
-                      <i class="bx bxs-user-account bx-lg text-gray-300"></i>
+                      <i ><svg xmlns="http://www.w3.org/2000/svg" width="4em" height="4em" viewBox="0 0 16 16"><g fill="currentColor"><path d="M5 8a2 2 0 1 0 0-4a2 2 0 0 0 0 4m4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5M9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8m1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5"/><path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96q.04-.245.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 1 1 12z"/></g></svg></i>
                     </div>
                   </div>
                 </div>

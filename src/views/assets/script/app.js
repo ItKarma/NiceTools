@@ -104,3 +104,26 @@ document.getElementById('logout').addEventListener('click', function (event) {
     window.location.href = '/';
     console.log("Clicou aqui no logout")
 });
+
+
+
+function clearCookies(event) {
+    // Evita que o link padrão execute
+    event.preventDefault();
+
+    // Função para remover todos os cookies
+    function deleteAllCookies() {
+        const cookies = document.cookie.split(";"); // Divide os cookies em um array
+        for (let cookie of cookies) {
+            const eqPos = cookie.indexOf("="); // Encontra a posição do '='
+            const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie; // Obtém o nome do cookie
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"; // Define a data de expiração para o passado
+        }
+    }
+
+    // Chama a função para deletar os cookies
+    deleteAllCookies();
+
+    // Redireciona para a página inicial
+    window.location.href = "/";
+}

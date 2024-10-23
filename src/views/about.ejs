@@ -111,24 +111,47 @@
 </head>
 
 <body class="dark-layout">
-            <main class="nt__main">
-                <div class="form-container">
-                    <h2 class="header-title">FORBIDDEN</h2>
 
-                    <h3 class="header-title">ROTA PROTEGIDA!!</h3>
-                    <p class="text-center"><%= message %>!!</p>
+    <%- include('includes/header'); %>
+        <%- include('includes/nav'); %>
 
-                    <p class="text-center">Para acessar nossa aplicação é nescessario realizar login!! <a href="/">Login</a> </p>
-
-                    <div class="imagem-container">
-                        <img src="assets/images/404.png" alt="Contato ao servidor" class="imagem-centralizada">
-                    </div>
-
+        <main class="nt__main">
+            <div class="form-container">
+                <h2 class="header-title">SOBRE NÓS</h2>
+        
+                <h3 class="header-title">Olá, seja bem-vindo! Essa é sua primeira vez por aqui?</h3>
+                <section>
+                    <h6 class="text-center mt-4">O que somos e como podemos lhe ajudar?</h6>
+                    <p class="text-center mt-2">Somos uma plataforma de cursos, e nosso dever é trazer e fornecer
+                        ferramentas web, como testadores e outros. Todos os testadores são de total auditoria da
+                        empresa LofiCenter. Tais ferramentas podem trazer mais facilidades ao seu trabalho. O uso de ferramentas com intuito mal-intencionado e para prejudicar órgãos é estritamente proibido.</p>
+                </section>
+        
+                <!-- Adicionando o aviso importante e a legislação -->
+                <section>
+                    <h6 class="text-center mt-4">Aviso Importante</h6>
+                    <p class="text-center mt-2 text-danger">
+                        Entretanto, é importante enfatizar que o uso dessas ferramentas deve ser feito de forma responsável e ética. Qualquer intento de utilização com a finalidade de prejudicar terceiros ou órgãos públicos é estritamente reprovado. O LofiCenter não se responsabiliza por qualquer uso inadequado ou malicioso de suas ferramentas, e encorajamos todos os nossos usuários a agir em conformidade com a legislação vigente.
+                    </p>
+        
+                    <h6 class="text-center mt-4">Legislação</h6>
+                    <p class="text-center mt-2">
+                        <strong>Artigo 171 do Código Penal Brasileiro:</strong><br>
+                        *"Obter, para si ou para outrem, vantagem ilícita, em prejuízo alheio, mediante fraude."*
+                    </p>
+                    <p class="text-center mt-2">A prática de atos ilícitos pode acarretar consequências legais severas. Portanto, ao utilizar nossas ferramentas, tenha em mente a responsabilidade que vem com o acesso a tecnologias poderosas. O LofiCenter acredita no uso ético da tecnologia e está comprometido em promover um ambiente digital seguro e responsável para todos os usuários.</p>
+                </section>
+        
+                <div class="imagem-container">
+                    <img src="assets/images/contact.png" alt="Contato ao servidor" class="imagem-centralizada">
                 </div>
-                <footer>
-                    <p>2023 © LofiCenter</p>
-                </footer>
-            </main>
+            </div>
+        
+            <footer>
+                <p>2023 © LofiCenter</p>
+            </footer>
+        </main>
+        
 
             <script src="assets/script/app.js" defer></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

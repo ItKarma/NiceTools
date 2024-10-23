@@ -2,18 +2,25 @@ import loginModel from '../models/user_model.js'
 import jwt from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs'
 import config from '../../config/config.js'
+import { activeSessions } from '../helpers/sessionStore.js'; 
 
 
-function gerenateToken(params = {}) {
-    return jwt.sign(params, config.JWT_SECRET, { expiresIn: 84600 })
+function generateToken(params = {}) {
+    console.log(params)
+    try {
+        return jwt.sign(params, config.JWT_SECRET, { expiresIn: '24h' }); 
+    } catch (error) {
+        console.error('Erro ao gerar o token:', error);
+        throw new Error('Token generation failed'); 
+    }
 }
 
 
 class authController {
-    
+
     async singUp(req, res) {
         const { username, password } = req.body;
-        let body = { username, password}
+        let body = { username, password }
 
 
         try {
@@ -24,7 +31,8 @@ class authController {
             if (!resSave) return res.json({ error: 'User is exist' });
             resSave.password = undefined
 
-            res.json({ resSave, token: gerenateToken({ id: resSave._id }) })
+            res.json({ resSave, token: generateToken({ id: resSave._id }) });
+
         } catch (error) {
             console.log(error)
             res.status(400).json({ error: 'try again later' })
@@ -33,29 +41,49 @@ class authController {
     }
 
     async authLogin(req, res) {
-        let body = req.body
-        console.log(body)
+        let body = req.body;
+       // console.log(body);
         try {
-            if (!body.username) return res.status(400).json({ error: 'username is required' })
-            if (!body.password) return res.status(400).json({ error: 'password is required' })
-
+            if (!body.username) return res.status(400).json({ error: 'username is required' });
+            if (!body.password) return res.status(400).json({ error: 'password is required' });
+    
             const user = await new loginModel(body).findUser();
-            console.log('USER TENTANDO EFETUAR LOGIN', body)
-
-            if (!user) return res.status(400).json({ error: 'user not found' })
-
-            if(!await bcryptjs.compare(body.password, user.password)) {
-                return res.status(400).json({ error: 'password invalid' })
+            console.log('USER TENTANDO EFETUAR LOGIN', body);
+    
+            if (!user) return res.status(400).json({ error: 'user not found' });
+    
+            if (!await bcryptjs.compare(body.password, user.password)) {
+                return res.status(400).json({ error: 'password invalid' });
             }
-
-            user.password = undefined
-
-            return res.json({ user, token: gerenateToken({ id: user._id }) })
+    
+            user.password = undefined;
+    
+            const userIp = req.ip;
+            const userId = user._id.toString();
+            console.log(userId, userIp)
+    
+            // Verifica e exclui sessão antiga se o IP for diferente
+            if (activeSessions[userId]) {
+                if (activeSessions[userId].ip !== userIp) {
+                    console.log(`Sessão anterior excluída para o usuário ${userId}`);
+                    delete activeSessions[userId];
+                }
+            }
+    
+            const token = generateToken({ id: userId }); // Certifique-se que a função está correta
+            activeSessions[userId] = { token, ip: userIp };
+    
+            console.log(token, activeSessions);
+            
+            res.cookie('ssid', token, { httpOnly: true }); // Use o mesmo nome de cookie
+    
+            return res.json({ user, token });
         } catch (error) {
-            console.log(error)
-            return res.status(400).json({ erro: error })
+            console.log(error);
+            return res.status(400).json({ erro: error });
         }
     }
+    
 
     async auth(req, res) {
         try {
@@ -68,7 +96,7 @@ class authController {
         }
     }
 
-    async authRegister (req,res){
+    async authRegister(req, res) {
         try {
             res.render('register')
 

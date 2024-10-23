@@ -19,114 +19,52 @@ router.get('/home', auth, homeController.home);
 router.get('/allbins', auth, homeController.allbins);
 router.get('/geradas', auth, homeController.geradas);
 router.get('/debitando', auth, homeController.debitando);
-
-router.get('/gateway/gg', auth, async (req, res) => {
-  try {
-    const gg = req.query.gg;
-
-    const userId = req.user.id;
-    const user = await new Login().findUserById(userId);
-    let users = await new Login().allFindUsers();
-  //  console.log(users.length)
-
-    if (!user) {
-      return res.status(404).json({ error: 'Usuário não encontrado' });
-    }
-
-    const timeLeft = await gatesController.checkSubscriptionTime(user);
-    let userInfo = { status: 'active', timeLeft };
-
-    if (timeLeft === 0) {
-      userInfo.status = 'inactive';
-      return res.json(userInfo);
-    }
-
-
-    const response = await gatesController.gatewayGeradas(gg);
-    //console.log(response);
-
-    if (response.error) {
-      return res.status(400).json({ error: response.error });
-    }
-
-    return res.json({ response });
-  } catch (error) {
-    console.error('Erro na rota /gateway/allbins2:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+router.get('/contato', auth, homeController.contato);
+router.get('/about', auth, homeController.about);
 
 router.get('/gateway/allbins1', auth, async (req, res) => {
   try {
     const gg = req.query.gg;
-
     const userId = req.user.id;
-    const user = await new Login().findUserById(userId);
-    let users = await new Login().allFindUsers();
-    //   console.log(users.length)
+    const user = await new Login().findUserById(userId); // Busca o usuário no banco
+    console.log(user, userId, gg)
 
     if (!user) {
       return res.status(404).json({ error: 'Usuário não encontrado' });
     }
 
-    const timeLeft = await gatesController.checkSubscriptionTime(user);
-    let userInfo = { status: 'active', timeLeft };
+    let userInfo = { status: 'active', balance: user.balance };
 
-    if (timeLeft === 0) {
+    if (user.balance === 0) {
       userInfo.status = 'inactive';
       return res.json(userInfo);
     }
-
 
     const response = await gatesController.gateway11(gg);
-    //console.log(response);
+    console.log(response)
 
-    if (response.error) {
-      return res.status(400).json({ error: response.error });
+    // Usa a função deductBalance para reduzir o saldo do usuário baseado na resposta
+    if (response.includes('Reprovada')) {
+      const reduceBalance = await new Login().deductBalance(0.05, userId);
+      if (reduceBalance === 'saldo insuficiente') {
+        return res.status(400).json({ error: 'Saldo insuficiente' });
+      }
+      console.log('Saldo reduzido em 0.05:', reduceBalance);
+    } else {
+      const reduceBalance = await new Login().deductBalance(1.5, userId);
+      if (reduceBalance === 'saldo insuficiente') {
+        return res.status(400).json({ error: 'Saldo insuficiente' });
+      }
+      console.log('Saldo reduzido em 1.5:', reduceBalance);
     }
 
     return res.json({ response });
   } catch (error) {
-    console.error('Erro na rota /gateway/allbins2:', error);
+    console.error('Erro na rota /gateway/allbins1:', error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-router.get('/gateway/debi', auth, async (req, res) => {
-  try {
-    const gg = req.query.gg;
-
-    const userId = req.user.id;
-    const user = await new Login().findUserById(userId);
-    let users = await new Login().allFindUsers();
-    //   console.log(users.length)
-
-    if (!user) {
-      return res.status(404).json({ error: 'Usuário não encontrado' });
-    }
-
-    const timeLeft = await gatesController.checkSubscriptionTime(user);
-    let userInfo = { status: 'active', timeLeft };
-
-    if (timeLeft === 0) {
-      userInfo.status = 'inactive';
-      return res.json(userInfo);
-    }
-
-
-    const response = await gatesController.ggdebitando(gg);
-    //console.log(response);
-
-    if (response.error) {
-      return res.status(400).json({ error: response.error });
-    }
-
-    return res.json({ response });
-  } catch (error) {
-    console.error('Erro na rota /gateway/allbins2:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
 
 
 export default router;

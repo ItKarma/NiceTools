@@ -31,7 +31,7 @@ const __dirname = dirname(__filename);
   app.use(router);
 
   app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'src', 'views','assets','images', '404.webp')); // Altere para o caminho da sua imagem
+    res.status(404).sendFile(path.join(__dirname, 'src', 'views','assets','images', '404.png')); // Altere para o caminho da sua imagem
   });
 
   app.listen(3000, () => {
