@@ -81,7 +81,7 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
             'https://api.bioexplica.com.br/api/aluno',
             {
                 "nome": dadosGerados.nome,
-                "telefone": "(91) 98582-7377",
+                "telefone": dadosGerados.telefone,
                 "email": dadosGerados.email,
                 "senha": "Juliansilva@12",
                 "score": 0.9
@@ -89,16 +89,10 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
             {
                 headers: {
                     'Host': 'api.bioexplica.com.br',
-                    'sec-ch-ua-platform': '"Windows"',
-                    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+                  //  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
                     'accept': 'application/json, text/plain, */*',
-                    'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
                     'content-type': 'application/json;charset=UTF-8',
-                    'sec-ch-ua-mobile': '?0',
                     'origin': 'https://aluno.bioexplica.com.br',
-                    'sec-fetch-site': 'same-site',
-                    'sec-fetch-mode': 'cors',
-                    'sec-fetch-dest': 'empty',
                     'referer': 'https://aluno.bioexplica.com.br/',
                     'accept-language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
                     'priority': 'u=1, i'
