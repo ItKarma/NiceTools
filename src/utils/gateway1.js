@@ -173,38 +173,38 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
        );
 
 
-       const response1 = await axios.post(
-           'https://paulinas.badiu21.com.br/system/service/process',
-           {
-               'username': dadosGerados.email,
-               'password': '',
-               'name': '',
-               'addpassword': '',
-               'personalphonemobile': '',
-               'nationalitystatus': 'native',
-               'transactionid': faturaUrl[1],
-               '_service': 'badiu.local.paulinas.ecommerce.loginsingin.formcontroller',
-               '_function': 'checkUsername'
-           },
-           {
-               headers: {
-                   'Host': 'paulinas.badiu21.com.br',
-                   'sec-ch-ua-platform': '"Windows"',
-                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
-                   'Accept': 'application/json, text/plain, */*',
-                   'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
-                   'Content-Type': 'application/json;charset=UTF-8',
-                   'sec-ch-ua-mobile': '?0',
-                   'Origin': 'https://paulinas.badiu21.com.br',
-                   'Sec-Fetch-Site': 'same-origin',
-                   'Sec-Fetch-Mode': 'cors',
-                   'Sec-Fetch-Dest': 'empty',
-                   'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
-                   cookies
-               },
-               httpsAgent: proxyAgent,
-           }
-       );
+  //    const response1 = await axios.post(
+  //        'https://paulinas.badiu21.com.br/system/service/process',
+  //        {
+  //            'username': dadosGerados.email,
+  //            'password': '',
+  //            'name': '',
+  //            'addpassword': '',
+  //            'personalphonemobile': '',
+  //            'nationalitystatus': 'native',
+  //            'transactionid': faturaUrl[1],
+  //            '_service': 'badiu.local.paulinas.ecommerce.loginsingin.formcontroller',
+  //            '_function': 'checkUsername'
+  //        },
+  //        {
+  //            headers: {
+  //                'Host': 'paulinas.badiu21.com.br',
+  //                'sec-ch-ua-platform': '"Windows"',
+  //                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+  //                'Accept': 'application/json, text/plain, */*',
+  //                'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+  //                'Content-Type': 'application/json;charset=UTF-8',
+  //                'sec-ch-ua-mobile': '?0',
+  //                'Origin': 'https://paulinas.badiu21.com.br',
+  //                'Sec-Fetch-Site': 'same-origin',
+  //                'Sec-Fetch-Mode': 'cors',
+  //                'Sec-Fetch-Dest': 'empty',
+  //                'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+  //                cookies
+  //            },
+  //            httpsAgent: proxyAgent,
+  //        }
+  //    );
 
        //  console.log(response1.data);
 
