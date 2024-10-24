@@ -56,17 +56,12 @@ const proxyConfig = {
     host: 'rp.proxyscrape.com',
     port: 6060,
     auth: {
-        username: 'jpn645m14q0pkq9-country-br',
-        password: '1witm204vszvwdv'
+        username: 'gtku4x1qu1knwy3-country-br-state-saopaulo',
+        password: 'uda8bixlivodm9f'
     }
 };
-//const proxyAgent = new HttpsProxyAgent(`http://${proxyConfig.auth.username}:${proxyConfig.auth.password}@${proxyConfig.host}:${proxyConfig.port}`);
-const proxyCredentials = '2BBmmf8kVHfpGMzO:H8h2PGjZJhxX2g7Q_country-br,us_streaming-1';
-const proxyHost = 'geo.iproyal.com';
-const proxyPort = 12321;
+const proxyAgent = new HttpsProxyAgent(`http://${proxyConfig.auth.username}:${proxyConfig.auth.password}@${proxyConfig.host}:${proxyConfig.port}`);
 
-
-const proxyAgent = new HttpsProxyAgent(`http://${proxyCredentials}@${proxyHost}:${proxyPort}`);
 
 // Exemplo de uso
 
