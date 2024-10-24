@@ -102,8 +102,8 @@
 
             <main class="nt__main">
                 <div class="form-container">
-                    <h2 class="header-title">GG DEBITANDO [ <i class='bx bxl-visa'></i>/<i
-                            class='bx bxl-mastercard'></i> ]</h2>
+                    <h2 class="header-title">GG 466 [ <i class='bx bxl-visa'></i>/<i class='bx bxl-mastercard'></i> ]
+                    </h2>
 
                     <form>
 
@@ -127,10 +127,16 @@
 
                     <div class="resultado-aprovados">
                         <h5 class="text-success">
-                            <i class="bx bx-check"></i> <svg id="toggleAprovados" xmlns="http://www.w3.org/2000/svg"
-                                width="1.2em" height="1.2em" viewBox="0 0 24 24" style="cursor: pointer;">
+                            <i class="bx bx-check"></i>
+                            <svg id="toggleAprovados" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em"
+                                viewBox="0 0 24 24" style="cursor: pointer;">
                                 <path fill="currentColor" fill-rule="evenodd"
                                     d="M12 17.8c4.034 0 7.686-2.25 9.648-5.8C19.686 8.45 16.034 6.2 12 6.2S4.314 8.45 2.352 12c1.962 3.55 5.614 5.8 9.648 5.8M12 5c4.808 0 8.972 2.848 11 7c-2.028 4.152-6.192 7-11 7s-8.972-2.848-11-7c2.028-4.152 6.192-7 11-7m0 9.8a2.8 2.8 0 1 0 0-5.6a2.8 2.8 0 0 0 0 5.6m0 1.2a4 4 0 1 1 0-8a4 4 0 0 1 0 8" />
+                            </svg>
+                            <svg id="copyIcon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                viewBox="0 0 16 16" style="cursor: pointer; margin-left: 10px;">
+                                <path fill="none" stroke="currentColor" stroke-linejoin="round"
+                                    d="M4 8.5h5m-5 2h5m3 0h1.5v-8h-8V4m-3 9.5h8v-8h-8z" />
                             </svg>
                             Aprovados
                         </h5>
@@ -175,60 +181,60 @@
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
             <script>
-        $(document).ready(function () {
-          let splitValueLista = [];
-          let lastIndexProcessed = 0;
-          // Função para exibir o toast de notificação
-          function showNotification(message) {
-            $('#notificationMessage').text(message);
-            const toastElement = new bootstrap.Toast($('#notification')[0]); // Inicializa o toast do Bootstrap 5
-            toastElement.show();
-          }
-          $('#btnIniciar').click(function () {
-            const textareaValue = $('#exampleTextarea').val().trim();
-            if (textareaValue === "") {
-              // Exibir o toast com a mensagem de erro
-              showNotification('INSIRA LISTA');
-              return; // Não inicia o processamento se estiver vazio
-            }
-            splitValueLista = textareaValue.split('\n');
-            $('#carregadas').text(splitValueLista.length);
-            function processItem(index) {
-              if (index >= splitValueLista.length) {
-                return;
-              }
-              let value = splitValueLista[index];
-              $.ajax({
-                url: `/gateway/allbins1?gg=${encodeURIComponent(value)}`,
-                method: 'GET',
-                success: function (data) {
-                  splitValueLista.splice(index, 1); 
-                  $('#exampleTextarea').val(splitValueLista.join('\n')); 
-                  if (data.status == 'inactive') {
-                    $('#listaReprovados').append(`<li class="text-danger">❌ POR FAVOR COMPRE COM O ACESSO COM ADM @im_karmah</li>`);
-                    $('#reprovadas').text(parseInt($('#reprovadas').text()) + 1);
-                  } else if (data.response.includes("[Aprovada]")) {
-                    console.log('APROV');
-                    $('#listaAprovados').append(`<li class="text-success">✅ ${data.response}</li>`);
-                    $('#aprovadas').text(parseInt($('#aprovadas').text()) + 1);
-                  } else {
-                    $('#listaReprovados').append(`<li class="text-danger">❌ ${data.response}</li>`);
-                    $('#reprovadas').text(parseInt($('#reprovadas').text()) + 1);
-                  }
-                  processItem(index); 
-                },
-                error: function (xhr, status, error) {
-                  console.error(`Erro na requisição para ${value}:`, error);
-                  processItem(index); 
-                }
-              });
-            }
-            processItem(lastIndexProcessed); 
-          });
-          $('#btnParar').click(function () {
-            console.log('Parar clicado');
-          });
-        });
+                $(document).ready(function () {
+                    let splitValueLista = [];
+                    let lastIndexProcessed = 0;
+                    // Função para exibir o toast de notificação
+                    function showNotification(message) {
+                        $('#notificationMessage').text(message);
+                        const toastElement = new bootstrap.Toast($('#notification')[0]); // Inicializa o toast do Bootstrap 5
+                        toastElement.show();
+                    }
+                    $('#btnIniciar').click(function () {
+                        const textareaValue = $('#exampleTextarea').val().trim();
+                        if (textareaValue === "") {
+                            // Exibir o toast com a mensagem de erro
+                            showNotification('INSIRA LISTA');
+                            return; // Não inicia o processamento se estiver vazio
+                        }
+                        splitValueLista = textareaValue.split('\n');
+                        $('#carregadas').text(splitValueLista.length);
+                        function processItem(index) {
+                            if (index >= splitValueLista.length) {
+                                return;
+                            }
+                            let value = splitValueLista[index];
+                            $.ajax({
+                                url: `/gateway/allbins1?gg=${encodeURIComponent(value)}`,
+                                method: 'GET',
+                                success: function (data) {
+                                    splitValueLista.splice(index, 1);
+                                    $('#exampleTextarea').val(splitValueLista.join('\n'));
+                                    if (data.status == 'inactive') {
+                                        $('#listaReprovados').append(`<li class="text-danger">❌ POR FAVOR COMPRE COM O ACESSO COM ADM @im_karmah</li>`);
+                                        $('#reprovadas').text(parseInt($('#reprovadas').text()) + 1);
+                                    } else if (data.response.includes("[Aprovada]")) {
+                                        console.log('APROV');
+                                        $('#listaAprovados').append(`<li class="text-success">✅ ${data.response}</li>`);
+                                        $('#aprovadas').text(parseInt($('#aprovadas').text()) + 1);
+                                    } else {
+                                        $('#listaReprovados').append(`<li class="text-danger">❌ ${data.response}</li>`);
+                                        $('#reprovadas').text(parseInt($('#reprovadas').text()) + 1);
+                                    }
+                                    processItem(index);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error(`Erro na requisição para ${value}:`, error);
+                                    processItem(index);
+                                }
+                            });
+                        }
+                        processItem(lastIndexProcessed);
+                    });
+                    $('#btnParar').click(function () {
+                        console.log('Parar clicado');
+                    });
+                });
 
                 $(document).ready(function () {
 
@@ -241,17 +247,33 @@
                         }
                     });
 
+                    $('#copyIcon').click(function () {
+                        const listaAprovados = $('#listaAprovados');
+                        const items = listaAprovados.find('li');
+                        let textoParaCopiar = '';
 
-                    $('#toggleReprovados').click(function () {
-                        $('#listaReprovados').toggle();
-                        if ($('#listaReprovados').is(':visible')) {
-                            $(this).html(`<path fill="currentColor" fill-rule="evenodd" d="M12 17.8c4.034 0 7.686-2.25 9.648-5.8C19.686 8.45 16.034 6.2 12 6.2S4.314 8.45 2.352 12c1.962 3.55 5.614 5.8 9.648 5.8M12 5c4.808 0 8.972 2.848 11 7c-2.028 4.152-6.192 7-11 7s-8.972-2.848-11-7c2.028-4.152 6.192-7 11-7m0 9.8a2.8 2.8 0 1 0 0-5.6a2.8 2.8 0 0 0 0 5.6m0 1.2a4 4 0 1 1 0-8a4 4 0 0 1 0 8"/>`);
+                        items.each(function () {
+                            textoParaCopiar += $(this).text() + '\n';
+                        });
+
+                        if (textoParaCopiar) {
+                            navigator.clipboard.writeText(textoParaCopiar).then(() => {
+
+                                const copiedIcon = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m9.55 15.15l8.475-8.475q.3-.3.7-.3t.7.3t.3.713t-.3.712l-9.175 9.2q-.3.3-.7.3t-.7-.3L4.55 13q-.3-.3-.288-.712t.313-.713t.713-.3t.712.3z"/></svg>`;
+                                $('#copyIcon').html(copiedIcon);
+
+                                setTimeout(() => {
+                                    $('#copyIcon').html(originalIcon);
+                                }, 4000);
+                            }).catch(err => {
+                                alert('Falha ao copiar: ' + err);
+                            });
                         } else {
-                            $(this).html(`<path fill="currentColor" fill-rule="evenodd" d="m18.67 16.973l2.755 2.755l-.849.848L3.85 3.85L4.697 3l2.855 2.855C8.932 5.303 10.432 5 12 5c4.808 0 8.972 2.848 11 7a12.65 12.65 0 0 1-4.33 4.973M8.486 6.79l1.664 1.664a4 4 0 0 1 5.398 5.398l2.255 2.255c1.574-1 2.904-2.403 3.845-4.106C19.686 8.45 16.034 6.2 12 6.2a10.8 10.8 0 0 0-3.514.59m6.152 6.152a2.8 2.8 0 0 0-3.579-3.579zm1.81 5.204c-1.38.552-2.88.855-4.448.855c-4.808 0-8.972-2.848-11-7a12.65 12.65 0 0 1 4.33-4.973l.867.867A11.36 11.36 0 0 0 2.352 12c1.962 3.55 5.614 5.8 9.648 5.8a10.8 10.8 0 0 0 3.514-.59l.934.935zM8.453 10.15l.909.91a2.8 2.8 0 0 0 3.579 3.579l.91.908a4 4 0 0 1-5.398-5.398z"/>`);
+                            alert('A lista de aprovados está vazia.');
                         }
                     });
                 });
-
             </script>
 
 </body>

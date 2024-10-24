@@ -16,9 +16,9 @@ class GatesController {
     }
   }
 
-  async gatewayGeradas(gg) {
+  async debitando(gg) {
     try {
-      const response = await geradas_pagarme(gg);
+      const response = await gateway1(gg);
       return response 
     } catch (error) {
       console.error('Erro no controlador GatesController:', error);

