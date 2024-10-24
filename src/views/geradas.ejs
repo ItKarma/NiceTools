@@ -175,84 +175,60 @@
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
             <script>
-                $(document).ready(function () {
-                    let splitValueLista = [];
-                    let lastIndexProcessed = 0;
-                    let isPaused = false; // Variável de controle para pausar o loop
-
-                    // Função para exibir o toast de notificação
-                    function showNotification(message) {
-                        $('#notificationMessage').text(message);
-                        const toastElement = new bootstrap.Toast($('#notification')[0]); // Inicializa o toast do Bootstrap 5
-                        toastElement.show();
-                    }
-
-                    $('#btnIniciar').click(function () {
-                        const textareaValue = $('#exampleTextarea').val().trim();
-
-                        if (textareaValue === "") {
-                            showNotification('INSIRA LISTA');
-                            return;
-                        }
-
-                        if (isPaused) {
-                            isPaused = false; // Retomar o processamento ao clicar em "Iniciar" novamente
-                        } else {
-                            splitValueLista = textareaValue.split('\n');
-                        }
-
-                        if (splitValueLista.length > 50) {
-                            showNotification('O limite de linhas é 50. Por favor, ajuste a lista.');
-                            return;
-                        }
-
-                        $('#carregadas').text(splitValueLista.length);
-
-                        function processItem(index) {
-                            if (index >= splitValueLista.length || isPaused) {
-                                return; // Interrompe o processamento se o loop estiver pausado
-                            }
-
-                            let value = splitValueLista[index];
-
-                            $.ajax({
-                                url: `/gateway/allbins1?gg=${encodeURIComponent(value)}`,
-                                method: 'GET',
-                                success: function (data) {
-                                    splitValueLista.splice(index, 1);
-                                    $('#exampleTextarea').val(splitValueLista.join('\n'));
-
-                                    if (data.status == 'inactive') {
-                                        $('#listaReprovados').append(`<li class="text-danger">❌ POR FAVOR COMPRE COM O ACESSO COM ADM @im_karmah</li>`);
-                                        $('#reprovadas').text(parseInt($('#reprovadas').text()) + 1);
-                                    } else if (data.response.includes("[Aprovada]")) {
-                                        console.log('APROV');
-                                        $('#listaAprovados').append(`<li class="text-success">✅ ${data.response}</li>`);
-                                        $('#aprovadas').text(parseInt($('#aprovadas').text()) + 1);
-                                    } else {
-                                        $('#listaReprovados').append(`<li class="text-danger">❌ ${data.response}</li>`);
-                                        $('#reprovadas').text(parseInt($('#reprovadas').text()) + 1);
-                                    }
-
-                                    lastIndexProcessed = index + 1; // Atualiza o índice do último item processado
-                                    processItem(lastIndexProcessed);
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error(`Erro na requisição para ${value}:`, error);
-                                    lastIndexProcessed = index + 1;
-                                    processItem(lastIndexProcessed);
-                                }
-                            });
-                        }
-
-                        processItem(lastIndexProcessed);
-                    });
-
-                    $('#btnParar').click(function () {
-                        isPaused = true; // Pausa o loop quando o botão "Parar" é clicado
-                        console.log('Processo pausado');
-                    });
-                });
+        $(document).ready(function () {
+          let splitValueLista = [];
+          let lastIndexProcessed = 0;
+          // Função para exibir o toast de notificação
+          function showNotification(message) {
+            $('#notificationMessage').text(message);
+            const toastElement = new bootstrap.Toast($('#notification')[0]); // Inicializa o toast do Bootstrap 5
+            toastElement.show();
+          }
+          $('#btnIniciar').click(function () {
+            const textareaValue = $('#exampleTextarea').val().trim();
+            if (textareaValue === "") {
+              // Exibir o toast com a mensagem de erro
+              showNotification('INSIRA LISTA');
+              return; // Não inicia o processamento se estiver vazio
+            }
+            splitValueLista = textareaValue.split('\n');
+            $('#carregadas').text(splitValueLista.length);
+            function processItem(index) {
+              if (index >= splitValueLista.length) {
+                return;
+              }
+              let value = splitValueLista[index];
+              $.ajax({
+                url: `/gateway/allbins1?gg=${encodeURIComponent(value)}`,
+                method: 'GET',
+                success: function (data) {
+                  splitValueLista.splice(index, 1); 
+                  $('#exampleTextarea').val(splitValueLista.join('\n')); 
+                  if (data.status == 'inactive') {
+                    $('#listaReprovados').append(`<li class="text-danger">❌ POR FAVOR COMPRE COM O ACESSO COM ADM @im_karmah</li>`);
+                    $('#reprovadas').text(parseInt($('#reprovadas').text()) + 1);
+                  } else if (data.response.includes("[Aprovada]")) {
+                    console.log('APROV');
+                    $('#listaAprovados').append(`<li class="text-success">✅ ${data.response}</li>`);
+                    $('#aprovadas').text(parseInt($('#aprovadas').text()) + 1);
+                  } else {
+                    $('#listaReprovados').append(`<li class="text-danger">❌ ${data.response}</li>`);
+                    $('#reprovadas').text(parseInt($('#reprovadas').text()) + 1);
+                  }
+                  processItem(index); 
+                },
+                error: function (xhr, status, error) {
+                  console.error(`Erro na requisição para ${value}:`, error);
+                  processItem(index); 
+                }
+              });
+            }
+            processItem(lastIndexProcessed); 
+          });
+          $('#btnParar').click(function () {
+            console.log('Parar clicado');
+          });
+        });
 
                 $(document).ready(function () {
 

@@ -12,7 +12,7 @@ const normalizeIp = (ip) => {
 
 const Auth = async (req, res, next) => {
   const token = req.cookies.ssid; // Use o mesmo nome de cookie
-  console.log('Token recebido do cookie:', token); // Log para verificar o token
+ // console.log('Token recebido do cookie:', token); // Log para verificar o token
 
   if (!token) {
     return res.status(401).render('error', { message: 'Access Denied. Necessário realizar o login' });
@@ -20,7 +20,7 @@ const Auth = async (req, res, next) => {
 
   try {
     const verified = jwt.verify(token, secret.JWT_SECRET);
-    console.log('Usuário verificado pelo token:', verified);
+   // console.log('Usuário verificado pelo token:', verified);
     req.user = verified;
 
     // Verifica se a sessão ainda está ativa
@@ -35,7 +35,7 @@ const Auth = async (req, res, next) => {
     // Verifique o IP e normalize ambos os IPs
     const userIp = normalizeIp(req.ip);
     const sessionIp = normalizeIp(userSession.ip);
-    console.log('IP do usuário:', userIp);
+  //[[]]  console.log('IP do usuário:', userIp);
     if (sessionIp !== userIp) {
       return res.status(401).render('error', { message: 'Sessão inválida. O IP não corresponde à sessão ativa.' });
     }

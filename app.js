@@ -13,28 +13,32 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 (async () => {
- await connection_db();
+  try {
+    await connection_db();
 
-  app.use(cors({
-    origin: 'http://loficenter.org',
-    credentials: true
-  }));
-  app.use(cookieParser());
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+    app.use(cors({
+      origin: 'http://loficenter.org',
+      credentials: true
+    }));
+    app.use(cookieParser());
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
-  app.set('views', resolve(__dirname, 'src', 'views'));
-  app.set('view engine', 'ejs');
-  app.use('/assets', express.static(resolve(__dirname, 'src', 'views', 'assets')));
+    app.set('views', resolve(__dirname, 'src', 'views'));
+    app.set('view engine', 'ejs');
+    app.use('/assets', express.static(resolve(__dirname, 'src', 'views', 'assets')));
 
-  app.use(logger('dev'));
-  app.use(router);
+    app.use(logger('dev'));
+    app.use(router);
 
-  app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'src', 'views','assets','images', '404.png')); // Altere para o caminho da sua imagem
-  });
+    app.use((req, res, next) => {
+      res.status(404).sendFile(path.join(__dirname, 'src', 'views', 'assets', 'images', '404.png')); // Altere para o caminho da sua imagem
+    });
 
-  app.listen(3000, () => {
-    console.log("Servidor online na porta 3000");
-  });
+    app.listen(3000, () => {
+      console.log("Servidor online na porta 3000");
+    });
+  } catch (err) {
+    console.log(err)
+  }
 })();

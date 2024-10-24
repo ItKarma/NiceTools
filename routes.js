@@ -39,22 +39,16 @@ router.get('/gateway/allbins1', auth, async (req, res) => {
       userInfo.status = 'inactive';
       return res.json(userInfo);
     }
+    if (user.balance < 1.5) {
+      return res.status(400).json({ error: 'Saldo insuficiente' });
+    }
 
     const response = await gatesController.gateway11(gg);
-    console.log(response)
+ //   console.log(response)
 
     // Usa a função deductBalance para reduzir o saldo do usuário baseado na resposta
-    if (response.includes('Reprovada')) {
-      const reduceBalance = await new Login().deductBalance(0.05, userId);
-      if (reduceBalance === 'saldo insuficiente') {
-        return res.status(400).json({ error: 'Saldo insuficiente' });
-      }
-      console.log('Saldo reduzido em 0.05:', reduceBalance);
-    } else {
+    if (response.includes('Aprovada')){
       const reduceBalance = await new Login().deductBalance(1.5, userId);
-      if (reduceBalance === 'saldo insuficiente') {
-        return res.status(400).json({ error: 'Saldo insuficiente' });
-      }
       console.log('Saldo reduzido em 1.5:', reduceBalance);
     }
 

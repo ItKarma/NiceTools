@@ -14,7 +14,7 @@ function gerarNomeCompleto() {
 // Função para gerar um e-mail aleatório
 function gerarEmail(nomeCompleto) {
     const nomePartes = nomeCompleto.toLowerCase().split(' ');
-    const email = `${nomePartes[0]}.${nomePartes[1]}@exemplo.com`;
+    const email = `${nomePartes[0]}.${nomePartes[1]}@gmail.com`;
     return email;
 }
 
@@ -81,17 +81,18 @@ async function makePurchase(numberGG, monthGG, yearGG, cvvGG) {
             'https://api.bioexplica.com.br/api/aluno',
             {
                 "nome": dadosGerados.nome,
-                "telefone": "(91) 92872-3743",
+                "telefone": "(91) 98582-7377",
                 "email": dadosGerados.email,
-                "senha": "Karma0101@"
+                "senha": "Juliansilva@12",
+                "score": 0.9
             },
             {
                 headers: {
                     'Host': 'api.bioexplica.com.br',
                     'sec-ch-ua-platform': '"Windows"',
-                    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+                    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
                     'accept': 'application/json, text/plain, */*',
-                    'sec-ch-ua': '"Google Chrome";v="129", "Not=A?Brand";v="8", "Chromium";v="129"',
+                    'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
                     'content-type': 'application/json;charset=UTF-8',
                     'sec-ch-ua-mobile': '?0',
                     'origin': 'https://aluno.bioexplica.com.br',
