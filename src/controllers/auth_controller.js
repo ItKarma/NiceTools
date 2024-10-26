@@ -42,7 +42,6 @@ class authController {
 
     async authLogin(req, res) {
         let body = req.body;
-       // console.log(body);
         try {
             if (!body.username) return res.status(400).json({ error: 'username is required' });
             if (!body.password) return res.status(400).json({ error: 'password is required' });
@@ -60,9 +59,7 @@ class authController {
     
             const userIp = req.ip;
             const userId = user._id.toString();
-           // console.log(userId, userIp)
-    
-            // Verifica e exclui sessão antiga se o IP for diferente
+ 
             if (activeSessions[userId]) {
                 if (activeSessions[userId].ip !== userIp) {
                     console.log(`Sessão anterior excluída para o usuário ${userId}`);
@@ -70,12 +67,12 @@ class authController {
                 }
             }
     
-            const token = generateToken({ id: userId }); // Certifique-se que a função está correta
+            const token = generateToken({ id: userId }); 
             activeSessions[userId] = { token, ip: userIp };
     
             console.log(token, activeSessions);
             
-            res.cookie('ssid', token, { httpOnly: true }); // Use o mesmo nome de cookie
+            res.cookie('ssid', token, { httpOnly: true }); 
     
             return res.json({ user, token });
         } catch (error) {

@@ -23,31 +23,6 @@ class homeController {
         }
     }
 
-
-    async allbins(req, res) {
-        try {
-
-            res.render('allbins');
-
-        } catch (error) {
-            console.log(error)
-            res.status(400).json({ error: 'try again later' })
-        }
-
-    }
-
-    async geradas(req, res) {
-        try {
-
-            res.render('geradas');
-
-        } catch (error) {
-            console.log(error)
-            res.status(400).json({ error: 'try again later' })
-        }
-
-    }
-
     async debitando(req, res) {
         try {
 

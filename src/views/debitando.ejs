@@ -102,7 +102,7 @@
 
             <main class="nt__main">
                 <div class="form-container">
-                    <h2 class="header-title">DABITANDO 466 [ <i class='bx bxl-visa'></i>/<i class='bx bxl-mastercard'></i> ]</h2>
+                    <h2 class="header-title">testador [ <i class='bx bxl-visa'></i>/<i class='bx bxl-mastercard'></i> ]</h2>
 
                     <form>
 
@@ -185,18 +185,16 @@
                 $(document).ready(function () {
                     let splitValueLista = [];
                     let lastIndexProcessed = 0;
-                    // Função para exibir o toast de notificação
                     function showNotification(message) {
                         $('#notificationMessage').text(message);
-                        const toastElement = new bootstrap.Toast($('#notification')[0]); // Inicializa o toast do Bootstrap 5
+                        const toastElement = new bootstrap.Toast($('#notification')[0]);
                         toastElement.show();
                     }
                     $('#btnIniciar').click(function () {
                         const textareaValue = $('#exampleTextarea').val().trim();
                         if (textareaValue === "") {
-                            // Exibir o toast com a mensagem de erro
                             showNotification('INSIRA LISTA');
-                            return; // Não inicia o processamento se estiver vazio
+                            return; 
                         }
                         splitValueLista = textareaValue.split('\n');
                         $('#carregadas').text(splitValueLista.length);
@@ -238,7 +236,6 @@
                 });
 
                 $(document).ready(function () {
-                    // Função para alternar a visibilidade da lista de aprovados
                     $('#toggleAprovados').click(function () {
                         $('#listaAprovados').toggle();
                         if ($('#listaAprovados').is(':visible')) {
@@ -256,7 +253,6 @@
                             $(this).html(`<path fill="currentColor" fill-rule="evenodd" d="m18.67 16.973l2.755 2.755l-.849.848L3.85 3.85L4.697 3l2.855 2.855C8.932 5.303 10.432 5 12 5c4.808 0 8.972 2.848 11 7a12.65 12.65 0 0 1-4.33 4.973M8.486 6.79l1.664 1.664a4 4 0 0 1 5.398 5.398l2.255 2.255c1.574-1 2.904-2.403 3.845-4.106C19.686 8.45 16.034 6.2 12 6.2a10.8 10.8 0 0 0-3.514.59m6.152 6.152a2.8 2.8 0 0 0-3.579-3.579zm1.81 5.204c-1.38.552-2.88.855-4.448.855c-4.808 0-8.972-2.848-11-7a12.65 12.65 0 0 1 4.33-4.973l.867.867A11.36 11.36 0 0 0 2.352 12c1.962 3.55 5.614 5.8 9.648 5.8a10.8 10.8 0 0 0 3.514-.59l.934.935zM8.453 10.15l.909.91a2.8 2.8 0 0 0 3.579 3.579l.91.908a4 4 0 0 1-5.398-5.398z"/>`);
                         }
                     });
-                    // Função para copiar os itens da lista de aprovados e mostrar o Toast
                     $('#copyIcon').click(function () {
                         const listaAprovados = $('#listaAprovados');
                         const items = listaAprovados.find('li');
@@ -273,7 +269,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m9.55 15.15l8.475-8.475q.3-.3.7-.3t.7.3t.3.713t-.3.712l-9.175 9.2q-.3.3-.7.3t-.7-.3L4.55 13q-.3-.3-.288-.712t.313-.713t.713-.3t.712.3z"/></svg>`;
                                 $('#copyIcon').html(copiedIcon);
 
-                                // Restaura o ícone original após 4 segundos
+
                                 setTimeout(() => {
                                     $('#copyIcon').html(originalIcon);
                                 }, 4000);
